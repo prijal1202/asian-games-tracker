@@ -1,10 +1,16 @@
-import { Country, CountryOverview, Sport, Fixture, ScraperStatus } from './types';
+import { Country, CountryOverview, Sport, Fixture, ScraperStatus, MedalStanding } from './types';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api';
 
 export async function fetchCountries(): Promise<Country[]> {
   const res = await fetch(`${API_BASE}/countries`);
   if (!res.ok) throw new Error('Failed to load countries');
+  return res.json();
+}
+
+export async function fetchMedals(): Promise<MedalStanding[]> {
+  const res = await fetch(`${API_BASE}/medals`);
+  if (!res.ok) throw new Error('Failed to load medal standings');
   return res.json();
 }
 

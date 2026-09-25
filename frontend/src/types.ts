@@ -9,6 +9,17 @@ export interface Country {
   total_sports: number;
 }
 
+export interface MedalStanding {
+  rank: number;
+  code: string;
+  name: string;
+  flag_url: string;
+  gold: number;
+  silver: number;
+  bronze: number;
+  total: number;
+}
+
 export interface Sport {
   slug: string;
   name: string;

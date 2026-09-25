@@ -2,14 +2,51 @@ from __future__ import annotations
 from backend.database import get_db_connection, init_db, DB_PATH
 
 COUNTRIES = [
-    ("JPN", "Japan", "🇯🇵", 52, 67, 69),
     ("CHN", "China", "🇨🇳", 201, 111, 71),
+    ("JPN", "Japan", "🇯🇵", 52, 67, 69),
     ("KOR", "South Korea", "🇰🇷", 42, 59, 89),
     ("IND", "India", "🇮🇳", 28, 38, 41),
     ("UZB", "Uzbekistan", "🇺🇿", 22, 18, 31),
     ("TPE", "Chinese Taipei", "🇹🇼", 19, 20, 28),
     ("IRI", "Iran", "🇮🇷", 13, 21, 20),
     ("THA", "Thailand", "🇹🇭", 12, 14, 32),
+    ("BRN", "Bahrain", "🇧🇭", 12, 3, 5),
+    ("PRK", "North Korea", "🇰🇵", 11, 18, 10),
+    ("KAZ", "Kazakhstan", "🇰🇿", 10, 22, 48),
+    ("HKG", "Hong Kong, China", "🇭🇰", 8, 16, 29),
+    ("INA", "Indonesia", "🇮🇩", 7, 11, 18),
+    ("MAS", "Malaysia", "🇲🇾", 6, 8, 18),
+    ("QAT", "Qatar", "🇶🇦", 5, 6, 3),
+    ("UAE", "United Arab Emirates", "🇦🇪", 5, 5, 10),
+    ("PHI", "Philippines", "🇵🇭", 4, 2, 12),
+    ("KGZ", "Kyrgyzstan", "🇰🇬", 4, 2, 9),
+    ("KSA", "Saudi Arabia", "🇸🇦", 4, 2, 4),
+    ("SGP", "Singapore", "🇸🇬", 3, 6, 7),
+    ("VIE", "Vietnam", "🇻🇳", 3, 5, 19),
+    ("MGL", "Mongolia", "🇲🇳", 3, 5, 13),
+    ("KUW", "Kuwait", "🇰🇼", 3, 4, 4),
+    ("TJK", "Tajikistan", "🇹🇯", 2, 1, 4),
+    ("PAK", "Pakistan", "🇵🇰", 1, 2, 4),
+    ("SRI", "Sri Lanka", "🇱🇰", 1, 2, 2),
+    ("MYA", "Myanmar", "🇲🇲", 1, 0, 2),
+    ("JOR", "Jordan", "🇯🇴", 0, 5, 4),
+    ("MAC", "Macau, China", "🇲🇴", 1, 3, 2),
+    ("TKM", "Turkmenistan", "🇹🇲", 0, 1, 6),
+    ("OMA", "Oman", "🇴🇲", 0, 1, 1),
+    ("BRU", "Brunei", "🇧🇳", 0, 1, 1),
+    ("NEP", "Nepal", "🇳🇵", 0, 1, 1),
+    ("AFG", "Afghanistan", "🇦🇫", 0, 1, 4),
+    ("LAO", "Laos", "🇱🇦", 0, 0, 3),
+    ("BAN", "Bangladesh", "🇧🇩", 0, 0, 2),
+    ("IRQ", "Iraq", "🇮🇶", 1, 0, 2),
+    ("LBN", "Lebanon", "🇱🇧", 0, 0, 1),
+    ("SYR", "Syria", "🇸🇾", 0, 0, 1),
+    ("PLE", "Palestine", "🇵🇸", 0, 0, 1),
+    ("CAM", "Cambodia", "🇰🇭", 0, 0, 1),
+    ("BHU", "Bhutan", "🇧🇹", 0, 0, 0),
+    ("MDV", "Maldives", "🇲🇻", 0, 0, 0),
+    ("TLS", "Timor-Leste", "🇹🇱", 0, 0, 0),
+    ("YEM", "Yemen", "🇾🇪", 0, 0, 0),
 ]
 
 SPORTS = [
@@ -20,9 +57,11 @@ SPORTS = [
     ("hockey", "Field Hockey", "Ball Games", "shield"),
     ("shooting", "Shooting", "Target Sports", "target"),
     ("swimming", "Swimming", "Aquatics", "waves"),
+    ("karate", "Karate", "Martial Arts", "shield"),
 ]
 
 FIXTURES = [
+    # Badminton
     (
         "badminton-ms-qf-ind-chn", "badminton", "Men's Singles", "Quarter-final", "COMPLETED",
         "2026-09-24T09:30:00Z", "Binjiang Gymnasium Court 1", "IND", "CHN", "2", "1",
@@ -39,10 +78,48 @@ FIXTURES = [
         "Scheduled for 14:30 UTC", None
     ),
     (
+        "badminton-ms-r32-nep-tha", "badminton", "Men's Singles", "Round of 32", "COMPLETED",
+        "2026-09-21T06:00:00Z", "Binjiang Gymnasium Court 3", "NEP", "THA", "1", "2",
+        "18-21, 21-17, 16-21", "THA"
+    ),
+
+    # Cricket
+    (
+        "cricket-m-grp-nep-mgl", "cricket", "Men's T20", "Group Stage", "COMPLETED",
+        "2026-09-21T03:00:00Z", "Zhejiang University of Technology Cricket Field", "NEP", "MGL", "314/3", "41",
+        "Nepal won by 273 runs (World Record T20 total)", "NEP"
+    ),
+    (
+        "cricket-m-qf-ind-nep", "cricket", "Men's T20", "Quarter-final", "COMPLETED",
+        "2026-09-23T05:30:00Z", "Zhejiang University of Technology Cricket Field", "IND", "NEP", "202/4", "179/9",
+        "India won by 23 runs in thriller", "IND"
+    ),
+    (
+        "cricket-m-final-ind-pak", "cricket", "Men's T20", "Final / Gold Medal Match", "UPCOMING",
+        "2026-09-27T08:30:00Z", "Zhejiang University of Technology Cricket Field", "IND", "PAK", "0", "0",
+        "Final match", None
+    ),
+
+    # Karate / Martial Arts (Nepal's historic Silver medal)
+    (
+        "karate-w-final-nep-chn", "karate", "Women's Kumite 68kg", "Final / Gold Medal Match", "COMPLETED",
+        "2026-09-24T08:00:00Z", "Xiaoshan Guali Sports Centre", "NEP", "CHN", "1", "9",
+        "Silver Medal won by Nepal", "CHN"
+    ),
+    (
+        "karate-w-sf-nep-kaz", "karate", "Women's Kumite 68kg", "Semi-final", "COMPLETED",
+        "2026-09-24T05:30:00Z", "Xiaoshan Guali Sports Centre", "NEP", "KAZ", "5", "4",
+        "Nepal advances to Final", "NEP"
+    ),
+
+    # Table Tennis
+    (
         "tabletennis-ws-final-chn-jpn", "table-tennis", "Women's Singles", "Final / Gold Medal Match", "UPCOMING",
         "2026-09-26T12:00:00Z", "Gongshu Canal Sports Park", "CHN", "JPN", "0", "0",
         "Gold Medal Match", None
     ),
+
+    # Hockey
     (
         "hockey-m-grp-ind-jpn", "hockey", "Men's Tournament", "Group Stage", "COMPLETED",
         "2026-09-22T08:00:00Z", "Gongshu Field Hockey Pitch 1", "IND", "JPN", "4", "2",
@@ -54,6 +131,13 @@ FIXTURES = [
         "3rd Quarter (38')", None
     ),
     (
+        "hockey-m-sf-pak-jpn", "hockey", "Men's Tournament", "Semi-final", "UPCOMING",
+        "2026-09-25T15:00:00Z", "Gongshu Field Hockey Pitch 1", "PAK", "JPN", "0", "0",
+        "Scheduled for 15:00 UTC", None
+    ),
+
+    # Archery
+    (
         "archery-mt-qf-ind-tpe", "archery", "Men's Recurve Team", "Quarter-final", "COMPLETED",
         "2026-09-23T04:00:00Z", "Fuyang Yinhu Sports Centre", "IND", "TPE", "5", "4",
         "Shoot-off: 29-28", "IND"
@@ -63,11 +147,8 @@ FIXTURES = [
         "2026-09-26T06:00:00Z", "Fuyang Yinhu Sports Centre", "IND", "KOR", "0", "0",
         "Scheduled for 06:00 UTC", None
     ),
-    (
-        "cricket-m-final-ind-pak", "cricket", "Men's T20", "Final / Gold Medal Match", "UPCOMING",
-        "2026-09-27T08:30:00Z", "Zhejiang University of Technology Cricket Field", "IND", "UZB", "0", "0",
-        "Final match", None
-    ),
+
+    # Swimming
     (
         "swimming-m-100free-final-chn-jpn", "swimming", "Men's 100m Freestyle", "Final / Gold Medal Match", "COMPLETED",
         "2026-09-23T12:30:00Z", "Hangzhou Olympic Sports Centre", "CHN", "JPN", "46.97", "47.88",

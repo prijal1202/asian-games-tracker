@@ -30,9 +30,9 @@
 **Files:**
 - Modify: `frontend/src/index.css`
 
-- [ ] **Step 1: Update index.css with editorial light canvas, deep black text, and minimal scrollbars**
-- [ ] **Step 2: Verify frontend builds cleanly**
-- [ ] **Step 3: Commit**
+- [x] **Step 1: Update index.css with editorial light canvas, deep black text, and minimal scrollbars**
+- [x] **Step 2: Verify frontend builds cleanly**
+- [x] **Step 3: Commit**
 
 ---
 
@@ -41,11 +41,11 @@
 **Files:**
 - Modify: `frontend/src/components/CountrySelector.tsx`
 
-- [ ] **Step 1: Redesign CountrySelector with soft-gray search bar ("Select Your Country to Support")**
-- [ ] **Step 2: Apply hairline-separated country list items with flags, codes, and compact medals**
-- [ ] **Step 3: Support persistent desktop sidebar mode and collapsible mobile/tablet view**
-- [ ] **Step 4: Verify frontend build**
-- [ ] **Step 5: Commit**
+- [x] **Step 1: Redesign CountrySelector with soft-gray search bar ("Select Your Country to Support")**
+- [x] **Step 2: Apply hairline-separated country list items with flags, codes, and compact medals**
+- [x] **Step 3: Support persistent desktop sidebar mode and collapsible mobile/tablet view**
+- [x] **Step 4: Verify frontend build**
+- [x] **Step 5: Commit**
 
 ---
 
@@ -55,11 +55,11 @@
 - Modify: `frontend/src/components/MatchCard.tsx`
 - Modify: `frontend/src/components/CountryDossier.tsx`
 
-- [ ] **Step 1: Redesign MatchCard with white surface, hairline borders, bold team typography, and compact metadata**
-- [ ] **Step 2: Maintain sport-adaptive scorecards (Cricket runs/wickets, Racquet sets, team scores)**
-- [ ] **Step 3: Redesign CountryDossier with clean campaign headline, vector flag crest, and hairline medal tally box**
-- [ ] **Step 4: Verify frontend build**
-- [ ] **Step 5: Commit**
+- [x] **Step 1: Redesign MatchCard with white surface, hairline borders, bold team typography, and compact metadata**
+- [x] **Step 2: Maintain sport-adaptive scorecards (Cricket runs/wickets, Racquet sets, team scores)**
+- [x] **Step 3: Redesign CountryDossier with clean campaign headline, vector flag crest, and hairline medal tally box**
+- [x] **Step 4: Verify frontend build**
+- [x] **Step 5: Commit**
 
 ---
 
@@ -70,11 +70,11 @@
 - Modify: `frontend/src/components/MedalTable.tsx`
 - Modify: `frontend/src/components/SportMatrix.tsx`
 
-- [ ] **Step 1: Update App.tsx to desktop-first two-column layout with solid black action tabs**
-- [ ] **Step 2: Update MedalTable to clean editorial table with hairline row dividers**
-- [ ] **Step 3: Update SportMatrix with clean editorial pill selectors and bracket groupings**
-- [ ] **Step 4: Verify mobile & desktop responsiveness**
-- [ ] **Step 5: Commit**
+- [x] **Step 1: Update App.tsx to desktop-first two-column layout with solid black action tabs**
+- [x] **Step 2: Update MedalTable to clean editorial table with hairline row dividers**
+- [x] **Step 3: Update SportMatrix with clean editorial pill selectors and bracket groupings**
+- [x] **Step 4: Verify mobile & desktop responsiveness**
+- [x] **Step 5: Commit**
 
 ---
 
@@ -83,6 +83,6 @@
 **Files:**
 - Run: Full backend pytest suite and frontend production build
 
-- [ ] **Step 1: Run complete backend pytest suite (20 tests)**
-- [ ] **Step 2: Run frontend production build (npm run build)**
-- [ ] **Step 3: Verify clean git status and commit**
+- [x] **Step 1: Run complete backend pytest suite (20 tests)**
+- [x] **Step 2: Run frontend production build (npm run build)**
+- [x] **Step 3: Verify clean git status and commit**

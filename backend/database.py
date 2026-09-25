@@ -1,6 +1,7 @@
 from __future__ import annotations
 import sqlite3
 import os
+from backend.constants import SPORT_SLUG_MAP
 
 DB_PATH = os.environ.get("TRACKER_DB_PATH", os.path.join(os.path.dirname(__file__), "tracker.db"))
 
@@ -68,30 +69,7 @@ def init_db(db_path: str = DB_PATH) -> None:
 def deduplicate_sports(conn: sqlite3.Connection) -> None:
     """Consolidates duplicate sports (e.g. 'bdm' vs 'badminton') and repoints fixtures."""
     cursor = conn.cursor()
-    REMAP = {
-        "bdm": "badminton",
-        "bmt": "badminton",
-        "arc": "archery",
-        "arh": "archery",
-        "ckt": "cricket",
-        "cri": "cricket",
-        "tte": "table-tennis",
-        "hoc": "hockey",
-        "bkb": "basketball",
-        "bk3": "3x3-basketball",
-        "ath": "athletics",
-        "box": "boxing",
-        "bkg": "breaking",
-        "bbl": "baseball",
-        "clb": "sport-climbing",
-        "swm": "swimming",
-        "sho": "shooting",
-        "kte": "karate",
-        "jud": "judo",
-        "wre": "wrestling",
-        "fbl": "football",
-    }
-    for old_slug, canon_slug in REMAP.items():
+    for old_slug, canon_slug in SPORT_SLUG_MAP.items():
         if old_slug == canon_slug:
             continue
         cursor.execute("SELECT slug FROM sports WHERE slug = ?", (canon_slug,))

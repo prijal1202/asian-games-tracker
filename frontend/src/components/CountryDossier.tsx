@@ -178,18 +178,21 @@ export const CountryDossier: React.FC<CountryDossierProps> = ({ overview }) => {
                   </div>
 
                   {/* Responsive Match Card Grid (balanced layout without vertical white space) */}
-                  <div className={`grid gap-3 ${
-                    sport.fixtures.length === 1 
-                      ? 'grid-cols-1 lg:grid-cols-2 max-w-3xl' 
-                      : 'grid-cols-1 md:grid-cols-2'
-                  }`}>
-                    {sport.fixtures.map((fixture) => (
-                      <MatchCard
-                        key={fixture.id}
-                        fixture={fixture}
-                        highlightCountryCode={country.code}
-                      />
-                    ))}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {sport.fixtures.map((fixture, idx) => {
+                      const isSingleOdd = sport.fixtures.length % 2 === 1 && idx === sport.fixtures.length - 1;
+                      return (
+                        <div
+                          key={fixture.id}
+                          className={isSingleOdd ? 'md:col-span-2 md:max-w-xl md:mx-auto w-full' : 'w-full'}
+                        >
+                          <MatchCard
+                            fixture={fixture}
+                            highlightCountryCode={country.code}
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               );

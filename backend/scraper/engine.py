@@ -7,53 +7,7 @@ from datetime import datetime
 from backend.database import get_db_connection
 from backend.scraper.parser import FixtureParser
 from backend.scraper.bornan_client import BornanClient
-
-SPORT_SLUG_MAP = {
-    "bdm": "badminton",
-    "bmt": "badminton",
-    "badminton": "badminton",
-    "arc": "archery",
-    "arh": "archery",
-    "archery": "archery",
-    "ckt": "cricket",
-    "cri": "cricket",
-    "cricket": "cricket",
-    "tte": "table-tennis",
-    "table-tennis": "table-tennis",
-    "table tennis": "table-tennis",
-    "hoc": "hockey",
-    "hockey": "hockey",
-    "field hockey": "hockey",
-    "bkb": "basketball",
-    "basketball": "basketball",
-    "bk3": "3x3-basketball",
-    "3x3-basketball": "3x3-basketball",
-    "3x3 basketball": "3x3-basketball",
-    "ath": "athletics",
-    "athletics": "athletics",
-    "box": "boxing",
-    "boxing": "boxing",
-    "bkg": "breaking",
-    "breaking": "breaking",
-    "bbl": "baseball",
-    "baseball": "baseball",
-    "bmf": "cycling-bmx-freestyle",
-    "bmx": "cycling-bmx-racing",
-    "clb": "sport-climbing",
-    "sport-climbing": "sport-climbing",
-    "swm": "swimming",
-    "swimming": "swimming",
-    "sho": "shooting",
-    "shooting": "shooting",
-    "kte": "karate",
-    "karate": "karate",
-    "jud": "judo",
-    "judo": "judo",
-    "wre": "wrestling",
-    "wrestling": "wrestling",
-    "fbl": "football",
-    "football": "football",
-}
+from backend.constants import SPORT_SLUG_MAP
 
 class ScraperEngine:
     def __init__(self, parser: Optional[FixtureParser] = None, bornan: Optional[BornanClient] = None):

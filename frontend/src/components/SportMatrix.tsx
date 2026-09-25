@@ -90,14 +90,18 @@ export const SportMatrix: React.FC = () => {
                 </span>
               </div>
 
-              <div className={`grid gap-4 ${
-                fList.length === 1
-                  ? 'grid-cols-1 md:grid-cols-2 max-w-3xl'
-                  : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-              }`}>
-                {fList.map((fixture) => (
-                  <MatchCard key={fixture.id} fixture={fixture} />
-                ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {fList.map((fixture, idx) => {
+                  const isLoneCard = (fList.length === 1) || (fList.length % 3 === 1 && idx === fList.length - 1);
+                  return (
+                    <div
+                      key={fixture.id}
+                      className={isLoneCard ? 'col-span-full md:max-w-xl md:mx-auto w-full' : 'w-full'}
+                    >
+                      <MatchCard fixture={fixture} />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}

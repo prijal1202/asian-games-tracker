@@ -1,6 +1,7 @@
 import sqlite3
 import pytest
 from backend.database import init_db, get_db_connection, deduplicate_sports
+from backend.constants import SPORT_SLUG_MAP as CONST_MAP
 from backend.scraper.engine import SPORT_SLUG_MAP
 from backend.main import app
 from fastapi.testclient import TestClient
@@ -8,6 +9,7 @@ from fastapi.testclient import TestClient
 client = TestClient(app)
 
 def test_sport_slug_map_canonicalization():
+    assert SPORT_SLUG_MAP is CONST_MAP
     assert SPORT_SLUG_MAP.get("bdm") == "badminton"
     assert SPORT_SLUG_MAP.get("bmt") == "badminton"
     assert SPORT_SLUG_MAP.get("badminton") == "badminton"

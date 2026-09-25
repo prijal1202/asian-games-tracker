@@ -8,6 +8,29 @@ from backend.database import get_db_connection
 from backend.scraper.parser import FixtureParser
 from backend.scraper.bornan_client import BornanClient
 
+SPORT_SLUG_MAP = {
+    "bdm": "badminton",
+    "arc": "archery",
+    "ckt": "cricket",
+    "tte": "table-tennis",
+    "hoc": "hockey",
+    "bkb": "basketball",
+    "bk3": "3x3-basketball",
+    "ath": "athletics",
+    "box": "boxing",
+    "bkg": "breaking",
+    "bbl": "baseball",
+    "bmf": "cycling-bmx-freestyle",
+    "bmx": "cycling-bmx-racing",
+    "clb": "sport-climbing",
+    "swm": "swimming",
+    "sho": "shooting",
+    "kte": "karate",
+    "jud": "judo",
+    "wre": "wrestling",
+    "fbl": "football",
+}
+
 class ScraperEngine:
     def __init__(self, parser: Optional[FixtureParser] = None, bornan: Optional[BornanClient] = None):
         self.parser = parser or FixtureParser()
@@ -77,11 +100,12 @@ class ScraperEngine:
             for d in target_discs:
                 disc_key = d.get("Key")
                 disc_name = d.get("Desc") or disc_key
-                slug = disc_key.lower()
+                slug = SPORT_SLUG_MAP.get(disc_key.lower(), disc_key.lower())
 
                 cursor.execute("""
-                    INSERT OR IGNORE INTO sports (slug, name, category, icon)
-                    VALUES (?, ?, 'Asian Games Sports', 'trophy');
+                    INSERT INTO sports (slug, name, category, icon)
+                    VALUES (?, ?, 'Asian Games Sports', 'trophy')
+                    ON CONFLICT(slug) DO UPDATE SET name = excluded.name;
                 """, (slug, disc_name))
 
                 # Fetch landing schedule: last, live, next
@@ -240,6 +264,7 @@ class ScraperEngine:
                             VALUES (?, ?, '🏳️');
                         """, (c_code, c_code))
 
+                canon_sport = SPORT_SLUG_MAP.get(f["sport_slug"].lower(), f["sport_slug"].lower())
                 cursor.execute("""
                     INSERT INTO fixtures (
                         id, sport_slug, event_name, stage_round, status, scheduled_at,
@@ -255,7 +280,7 @@ class ScraperEngine:
                         winner_code = excluded.winner_code,
                         updated_at = CURRENT_TIMESTAMP;
                 """, (
-                    f["id"], f["sport_slug"], f["event_name"], f["stage_round"],
+                    f["id"], canon_sport, f["event_name"], f["stage_round"],
                     f["status"], f["scheduled_at"], f["venue"], f["team_a_code"],
                     f["team_b_code"], f["team_a_score"], f["team_b_score"],
                     f["details"], f["winner_code"]

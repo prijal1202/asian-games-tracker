@@ -73,9 +73,13 @@ def get_country_overview(code: str):
         raise HTTPException(status_code=404, detail="Country not found")
 
     fixtures = conn.execute("""
-        SELECT f.*, s.name as sport_name, s.category as sport_category, s.icon as sport_icon
+        SELECT f.*, s.name as sport_name, s.category as sport_category, s.icon as sport_icon,
+               ca.name as team_a_name, ca.flag_url as team_a_flag,
+               cb.name as team_b_name, cb.flag_url as team_b_flag
         FROM fixtures f
         JOIN sports s ON f.sport_slug = s.slug
+        JOIN countries ca ON f.team_a_code = ca.code
+        LEFT JOIN countries cb ON f.team_b_code = cb.code
         WHERE f.team_a_code = ? OR f.team_b_code = ?
         ORDER BY f.scheduled_at ASC
     """, (code.upper(), code.upper())).fetchall()

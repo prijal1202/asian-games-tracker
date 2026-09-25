@@ -8,7 +8,7 @@
 
 ---
 
-## 📊 1. Executive Summary
+## 1. Executive Summary
 
 | Metric | Token Count | Character Count | Percentage |
 | :--- | :--- | :--- | :--- |
@@ -23,7 +23,7 @@
 
 ---
 
-## 💰 2. Estimated Cost Breakdown by Model & Scenario
+## 2. Estimated Cost Breakdown by Model & Scenario
 
 ### Active Model Profile: Gemini Pro Tier (`MODEL_TIER_PRO`)
 - **Engine Provider:** Google DeepMind / Google AI Studio / Vertex AI
@@ -40,7 +40,7 @@
 | **Raw Pay-As-You-Go (Worst-Case / Zero Caching)** | **$40.92** (32.73M tokens) | **$0.77** (153k tokens) | **~$41.69** | Theoretical ceiling if every conversational turn was billed at 100% fresh input rates |
 | **Direct Unique Content (Single-Pass Equivalent)** | **$0.38** (305k unique in) | **$0.09** (17k unique out) | **~$0.47** | Net unique tokens generated/exchanged in isolation, ignoring multi-turn turn loops |
 
-### 🌐 Cross-Model Benchmark Comparison (for the same 32.88M token workload)
+### Cross-Model Benchmark Comparison (for the same 32.88M token workload)
 
 | Model Tier & Engine | Pricing Model | Estimated Cost | Notes |
 | :--- | :--- | :--- | :--- |
@@ -51,7 +51,7 @@
 
 ---
 
-## 🔍 3. Granular Breakdown by Message / Step Type
+## 3. Granular Breakdown by Message / Step Type
 
 | Step Type / Component | Step Count | Tokens (Unique) | Characters | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -65,7 +65,7 @@
 
 ---
 
-## 📈 4. Cumulative LLM Processing Dynamics
+## 4. Cumulative LLM Processing Dynamics
 
 Because agentic coding assistants operate in an iterative loop—ingesting prior history and tool outputs at each turn—the cumulative token volume processed by the inference engine across all **362 model invocations** is:
 
@@ -75,7 +75,7 @@ Because agentic coding assistants operate in an iterative loop—ingesting prior
 
 ---
 
-## 🕒 5. Token Consumption by Major Development Milestones
+## 5. Token Consumption by Major Development Milestones
 
 1. **Milestone 1 — Project Foundation & Baseline Architecture (~85,000 unique tokens):**
    - SQLite schema (`tracker.db`), 45 OCA countries seeded, HTML parser, normalization modules, and 6 core REST API endpoints.
@@ -101,7 +101,7 @@ Because agentic coding assistants operate in an iterative loop—ingesting prior
 
 ---
 
-## 💡 6. Cost Efficiency & Token Optimization Insights
+## 6. Cost Efficiency & Token Optimization Insights
 
 1. **Automatic Context Compaction:** At step 246, history compaction condensed earlier steps into a concise summary (`<CONTEXT_SUMMARY>`), preventing the context window from swelling to 300k+ tokens and saving an estimated **~$18.50** in trailing turn costs.
 2. **Subagent Delegation:** The Senior Code Reviewer subagent ran in an isolated conversation workspace (`91533859-a8ee-4b30-9568-3633569e7726`), shielding the main session from thousands of raw code review diff tokens.
@@ -109,7 +109,7 @@ Because agentic coding assistants operate in an iterative loop—ingesting prior
 
 ---
 
-## 🛠️ 7. Methodology & Measurement
+## 7. Methodology & Measurement
 
 - **Transcript Location:** `C:\Users\User\.gemini\antigravity-cli\brain\8bb106d5-b1bd-4d69-8f43-bfe987922cbb\.system_generated\logs\transcript_full.jsonl`
 - **Tokenizer Model:** OpenAI / Tiktoken `cl100k_base` encoding (disallowed_special=()).

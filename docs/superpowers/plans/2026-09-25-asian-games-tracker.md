@@ -192,14 +192,14 @@ from __future__ import annotations
 from backend.database import get_db_connection, init_db
 
 COUNTRIES = [
-    ("JPN", "Japan", "🇯🇵", 52, 67, 69),
-    ("CHN", "China", "🇨🇳", 201, 111, 71),
-    ("KOR", "South Korea", "🇰🇷", 42, 59, 89),
-    ("IND", "India", "🇮🇳", 28, 38, 41),
-    ("UZB", "Uzbekistan", "🇺🇿", 22, 18, 31),
-    ("TPE", "Chinese Taipei", "🇹🇼", 19, 20, 28),
-    ("IRI", "Iran", "🇮🇷", 13, 21, 20),
-    ("THA", "Thailand", "🇹🇭", 12, 14, 32),
+    ("JPN", "Japan", "JPN", 52, 67, 69),
+    ("CHN", "China", "CHN", 201, 111, 71),
+    ("KOR", "South Korea", "KOR", 42, 59, 89),
+    ("IND", "India", "IND", 28, 38, 41),
+    ("UZB", "Uzbekistan", "UZB", 22, 18, 31),
+    ("TPE", "Chinese Taipei", "TPE", 19, 20, 28),
+    ("IRI", "Iran", "IRI", 13, 21, 20),
+    ("THA", "Thailand", "THA", 12, 14, 32),
 ]
 
 SPORTS = [
@@ -1345,7 +1345,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
       <div className="space-y-2 mb-3">
         <div className={`flex items-center justify-between p-2 rounded-lg ${highlightCountryCode === fixture.team_a_code ? 'bg-blue-950/40 border border-blue-900/50' : 'bg-slate-850'}`}>
           <div className="flex items-center gap-2">
-            <span className="text-xl">{fixture.team_a_flag || '🏳️'}</span>
+            <span className="font-semibold text-xs text-blue-400 font-mono">{fixture.team_a_code}</span>
             <span className="font-medium text-slate-200">{fixture.team_a_name || fixture.team_a_code}</span>
             {fixture.winner_code === fixture.team_a_code && <Trophy className="w-4 h-4 text-amber-400" />}
           </div>
@@ -1355,7 +1355,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
         {fixture.team_b_code && (
           <div className={`flex items-center justify-between p-2 rounded-lg ${highlightCountryCode === fixture.team_b_code ? 'bg-blue-950/40 border border-blue-900/50' : 'bg-slate-850'}`}>
             <div className="flex items-center gap-2">
-              <span className="text-xl">{fixture.team_b_flag || '🏳️'}</span>
+              <span className="font-semibold text-xs text-blue-400 font-mono">{fixture.team_b_code}</span>
               <span className="font-medium text-slate-200">{fixture.team_b_name || fixture.team_b_code}</span>
               {fixture.winner_code === fixture.team_b_code && <Trophy className="w-4 h-4 text-amber-400" />}
             </div>
@@ -1436,11 +1436,10 @@ export const CountrySelector: React.FC<CountrySelectorProps> = ({
                   : 'bg-slate-800/80 border-slate-700/80 text-slate-300 hover:bg-slate-750 hover:border-slate-600'
               }`}
             >
-              <span className="text-2xl mb-1">{country.flag_url || '🏳️'}</span>
-              <span className="font-semibold text-xs tracking-wide">{country.code}</span>
-              <span className="text-[10px] text-slate-400 truncate w-full">{country.name}</span>
+              <span className="font-bold text-xs text-blue-400 font-mono mb-1">{country.code}</span>
+              <span className="font-semibold text-xs tracking-wide">{country.name}</span>
               <div className="flex items-center gap-1 mt-1 text-[10px] text-amber-400 font-medium">
-                <span>🥇 {country.gold_medals}</span>
+                <span>Gold: {country.gold_medals}</span>
               </div>
             </button>
           );
@@ -1473,7 +1472,7 @@ export const CountryDossier: React.FC<CountryDossierProps> = ({ overview }) => {
       <div className="bg-gradient-to-r from-blue-900/40 via-slate-800 to-slate-800 border border-slate-700 rounded-2xl p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <span className="text-5xl">{country.flag_url || '🏳️'}</span>
+            <span className="text-2xl font-bold font-mono text-blue-400">{country.code}</span>
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-2xl font-bold text-white">{country.name}</h2>

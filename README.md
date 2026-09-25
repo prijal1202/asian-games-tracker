@@ -6,7 +6,7 @@ Integrates directly with the official **Asian Games 2026 Results System** (`http
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 * **Live 2026 Results & Scraper Ingestion:**
   * Direct synchronization with official Asian Games 2026 system (`results.asiangames2026.org`).
@@ -27,7 +27,7 @@ Integrates directly with the official **Asian Games 2026 Results System** (`http
   * Full schedule of upcoming, live, and completed fixtures with opponent flags, athlete names, and set scores.
 
 * **Sport Matrix View:**
-  * Browse fixtures grouped stage-by-stage (Preliminary Rounds → Quarter-finals → Semi-finals → Finals).
+  * Browse fixtures grouped stage-by-stage (Preliminary Rounds -> Quarter-finals -> Semi-finals -> Finals).
   * Filter by sport discipline (Badminton, Table Tennis, Archery, Cricket, Hockey, Swimming, etc.).
 
 * **Live Now Tab:**
@@ -39,7 +39,7 @@ Integrates directly with the official **Asian Games 2026 Results System** (`http
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## Architecture & Tech Stack
 
 * **Backend:** Python 3.10+, FastAPI, Uvicorn, SQLite3, `httpx`, `zlib`, `beautifulsoup4`, `pytest`
 * **Frontend:** React 18, Vite, TypeScript, Tailwind CSS, Lucide React
@@ -47,7 +47,7 @@ Integrates directly with the official **Asian Games 2026 Results System** (`http
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Start the Backend API
 
@@ -79,7 +79,7 @@ npm run dev
 
 ---
 
-## 🧪 Running Tests & Build Verification
+## Running Tests & Build Verification
 
 ### Backend Pytest Suite
 ```bash

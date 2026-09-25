@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Dict, Any, Optional, List
 import httpx
 import asyncio
+import re
 from datetime import datetime
 from backend.database import get_db_connection
 from backend.scraper.parser import FixtureParser
@@ -120,12 +121,23 @@ class ScraperEngine:
                     if home_name and away_name:
                         detail_parts.append(f"{home_name} vs {away_name}")
                     
-                    # Split sets scores if available
+                    is_cricket = slug in ["ckt", "cricket"]
+                    if is_cricket:
+                        score_a = re.sub(r'(\d+)\s*-\s*(\d+)', r'\1/\2', score_a)
+                        score_b = re.sub(r'(\d+)\s*-\s*(\d+)', r'\1/\2', score_b)
+
+                    # Split sets / innings scores if available
                     splits_a = [str(s.get("Res")) for s in home.get("Splits", []) if s.get("Res")]
                     splits_b = [str(s.get("Res")) for s in away.get("Splits", []) if s.get("Res")]
                     if splits_a and splits_b:
-                        set_pairs = [f"{a}-{b}" for a, b in zip(splits_a, splits_b)]
-                        detail_parts.append(f"Sets: {', '.join(set_pairs)}")
+                        if is_cricket:
+                            clean_a = [re.sub(r'(\d+)\s*-\s*(\d+)', r'\1/\2', s) for s in splits_a]
+                            clean_b = [re.sub(r'(\d+)\s*-\s*(\d+)', r'\1/\2', s) for s in splits_b]
+                            innings_parts = [f"{team_a}: {a} vs {team_b}: {b}" for a, b in zip(clean_a, clean_b)]
+                            detail_parts.append(f"Innings: {', '.join(innings_parts)}")
+                        else:
+                            set_pairs = [f"{a}-{b}" for a, b in zip(splits_a, splits_b)]
+                            detail_parts.append(f"Sets: {', '.join(set_pairs)}")
 
                     details = " | ".join(detail_parts)
                     winner = team_a if home.get("Winner") else (team_b if away.get("Winner") else None)

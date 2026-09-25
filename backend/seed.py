@@ -77,39 +77,11 @@ FIXTURES = [
         "2026-09-25T14:30:00Z", "Binjiang Gymnasium Court 1", "CHN", "KOR", "0", "0",
         "Scheduled for 14:30 UTC", None
     ),
-    (
-        "badminton-ms-r32-nep-tha", "badminton", "Men's Singles", "Round of 32", "COMPLETED",
-        "2026-09-21T06:00:00Z", "Binjiang Gymnasium Court 3", "NEP", "THA", "1", "2",
-        "18-21, 21-17, 16-21", "THA"
-    ),
-
     # Cricket
     (
-        "cricket-m-grp-nep-mgl", "cricket", "Men's T20", "Group Stage", "COMPLETED",
-        "2026-09-21T03:00:00Z", "Zhejiang University of Technology Cricket Field", "NEP", "MGL", "314/3", "41",
-        "Nepal won by 273 runs (World Record T20 total)", "NEP"
-    ),
-    (
-        "cricket-m-qf-ind-nep", "cricket", "Men's T20", "Quarter-final", "COMPLETED",
-        "2026-09-23T05:30:00Z", "Zhejiang University of Technology Cricket Field", "IND", "NEP", "202/4", "179/9",
-        "India won by 23 runs in thriller", "IND"
-    ),
-    (
         "cricket-m-final-ind-pak", "cricket", "Men's T20", "Final / Gold Medal Match", "UPCOMING",
-        "2026-09-27T08:30:00Z", "Zhejiang University of Technology Cricket Field", "IND", "PAK", "0", "0",
-        "Final match", None
-    ),
-
-    # Karate / Martial Arts (Nepal's historic Silver medal)
-    (
-        "karate-w-final-nep-chn", "karate", "Women's Kumite 68kg", "Final / Gold Medal Match", "COMPLETED",
-        "2026-09-24T08:00:00Z", "Xiaoshan Guali Sports Centre", "NEP", "CHN", "1", "9",
-        "Silver Medal won by Nepal", "CHN"
-    ),
-    (
-        "karate-w-sf-nep-kaz", "karate", "Women's Kumite 68kg", "Semi-final", "COMPLETED",
-        "2026-09-24T05:30:00Z", "Xiaoshan Guali Sports Centre", "NEP", "KAZ", "5", "4",
-        "Nepal advances to Final", "NEP"
+        "2026-09-27T08:30:00Z", "Aichi Prefectural Stadium Cricket Ground", "IND", "PAK", "0", "0",
+        "Scheduled Final", None
     ),
 
     # Table Tennis

@@ -13,42 +13,55 @@ export const CountryDossier: React.FC<CountryDossierProps> = ({ overview }) => {
   return (
     <div className="space-y-6">
       {/* Campaign Summary Banner */}
-      <div className="bg-gradient-to-r from-blue-900/40 via-slate-800 to-slate-800 border border-slate-700 rounded-2xl p-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-br from-slate-900 via-slate-900/90 to-blue-950/30 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl shadow-black/40 backdrop-blur-md">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div className="flex items-center gap-4">
-            <span className="text-5xl">{country.flag_url || '🏳️'}</span>
+            <span className="text-4xl sm:text-5xl flex-shrink-0 drop-shadow-md" role="img">
+              {country.flag_url || '🏳️'}
+            </span>
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-2xl font-bold text-white">{country.name}</h2>
-                <span className="text-sm px-2 py-0.5 bg-blue-500/20 text-blue-300 font-mono rounded">
+              <div className="flex items-center gap-2.5">
+                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  {country.name}
+                </h2>
+                <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 font-mono font-medium rounded-lg border border-blue-500/30">
                   {country.code}
                 </span>
               </div>
-              <p className="text-sm text-slate-400 mt-1">
-                Participating across {participating_sports.length} sports disciplines
+              <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                Participating across{' '}
+                <span className="text-slate-200 font-semibold">{participating_sports.length}</span>{' '}
+                sports disciplines in Asian Games 2026
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-slate-900/60 border border-slate-700/60 px-5 py-3 rounded-xl">
-            <div className="text-center">
-              <span className="text-xs text-amber-400 font-semibold block">GOLD</span>
-              <span className="text-xl font-bold text-white">{country.gold_medals}</span>
+          {/* Medal Tally Display */}
+          <div className="flex items-center justify-around sm:justify-end gap-3 sm:gap-4 bg-slate-950/80 border border-slate-800/90 px-5 py-3 rounded-2xl shadow-inner">
+            <div className="text-center px-1">
+              <span className="text-[10px] text-amber-400 font-bold tracking-wider block">GOLD</span>
+              <span className="text-lg sm:text-xl font-extrabold text-white font-mono">
+                {country.gold_medals}
+              </span>
             </div>
-            <div className="w-px h-8 bg-slate-700"></div>
-            <div className="text-center">
-              <span className="text-xs text-slate-300 font-semibold block">SILVER</span>
-              <span className="text-xl font-bold text-white">{country.silver_medals}</span>
+            <div className="w-px h-7 bg-slate-800"></div>
+            <div className="text-center px-1">
+              <span className="text-[10px] text-slate-300 font-bold tracking-wider block">SILVER</span>
+              <span className="text-lg sm:text-xl font-extrabold text-white font-mono">
+                {country.silver_medals}
+              </span>
             </div>
-            <div className="w-px h-8 bg-slate-700"></div>
-            <div className="text-center">
-              <span className="text-xs text-amber-600 font-semibold block">BRONZE</span>
-              <span className="text-xl font-bold text-white">{country.bronze_medals}</span>
+            <div className="w-px h-7 bg-slate-800"></div>
+            <div className="text-center px-1">
+              <span className="text-[10px] text-amber-600 font-bold tracking-wider block">BRONZE</span>
+              <span className="text-lg sm:text-xl font-extrabold text-white font-mono">
+                {country.bronze_medals}
+              </span>
             </div>
-            <div className="w-px h-8 bg-slate-700"></div>
-            <div className="text-center">
-              <span className="text-xs text-blue-400 font-semibold block">TOTAL</span>
-              <span className="text-xl font-bold text-blue-400">
+            <div className="w-px h-7 bg-slate-800"></div>
+            <div className="text-center px-1">
+              <span className="text-[10px] text-blue-400 font-bold tracking-wider block">TOTAL</span>
+              <span className="text-lg sm:text-xl font-extrabold text-blue-400 font-mono">
                 {country.gold_medals + country.silver_medals + country.bronze_medals}
               </span>
             </div>
@@ -56,19 +69,19 @@ export const CountryDossier: React.FC<CountryDossierProps> = ({ overview }) => {
         </div>
       </div>
 
-      {/* Sports Participation Grid */}
+      {/* Sports Participation & Fixtures */}
       <div>
-        <h3 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-          <Activity className="w-5 h-5 text-blue-400" />
+        <h3 className="text-base sm:text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
+          <Activity className="w-4 h-4 text-blue-400" />
           Participating Sports & Round Status
         </h3>
 
         {participating_sports.length === 0 ? (
-          <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-8 text-center text-slate-400">
-            No active sport fixtures found for {country.name}.
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 text-center text-slate-400">
+            No active sport fixtures scheduled for {country.name}.
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {participating_sports.map((sport) => {
               const isMedalContention =
                 sport.current_stage.includes('Final') || sport.current_stage.includes('Semi-final');
@@ -76,18 +89,20 @@ export const CountryDossier: React.FC<CountryDossierProps> = ({ overview }) => {
               return (
                 <div
                   key={sport.sport_slug}
-                  className="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-sm space-y-4"
+                  className="bg-slate-900/80 border border-slate-800/90 rounded-3xl p-5 shadow-lg shadow-black/20 space-y-4 backdrop-blur-sm"
                 >
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-700/60">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                     <div>
-                      <h4 className="font-bold text-white text-base">{sport.sport_name}</h4>
-                      <span className="text-xs text-slate-400">{sport.sport_category}</span>
+                      <h4 className="font-bold text-white text-sm sm:text-base">
+                        {sport.sport_name}
+                      </h4>
+                      <span className="text-[11px] text-slate-400">{sport.sport_category}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       {isMedalContention ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                          <Sparkles className="w-3.5 h-3.5" />
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-sm shadow-amber-950/20">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                           {sport.current_stage}
                         </span>
                       ) : (

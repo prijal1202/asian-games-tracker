@@ -89,9 +89,9 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col antialiased">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased">
       {/* Top Navbar */}
-      <header className="bg-slate-850 border-b border-slate-800 sticky top-0 z-30 backdrop-blur-md bg-slate-900/90 shadow-sm">
+      <header className="bg-slate-950/85 border-b border-slate-800/80 sticky top-0 z-30 backdrop-blur-xl shadow-lg shadow-black/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-600/30">

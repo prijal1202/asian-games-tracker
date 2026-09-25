@@ -177,8 +177,12 @@ export const CountryDossier: React.FC<CountryDossierProps> = ({ overview }) => {
                     </div>
                   </div>
 
-                  {/* Responsive Match Card Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Responsive Match Card Grid (balanced layout without vertical white space) */}
+                  <div className={`grid gap-3 ${
+                    sport.fixtures.length === 1 
+                      ? 'grid-cols-1 lg:grid-cols-2 max-w-3xl' 
+                      : 'grid-cols-1 md:grid-cols-2'
+                  }`}>
                     {sport.fixtures.map((fixture) => (
                       <MatchCard
                         key={fixture.id}

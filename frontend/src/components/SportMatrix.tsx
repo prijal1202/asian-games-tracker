@@ -28,6 +28,17 @@ export const SportMatrix: React.FC = () => {
     }
   }, [selectedSport]);
 
+  // Ensure unique sports by display name
+  const uniqueSports = React.useMemo(() => {
+    const seen = new Set<string>();
+    return sports.filter((s) => {
+      const key = s.name.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [sports]);
+
   // Group fixtures by stage/round
   const stageGroups = fixtures.reduce<Record<string, Fixture[]>>((acc, f) => {
     if (!acc[f.stage_round]) acc[f.stage_round] = [];
@@ -39,7 +50,7 @@ export const SportMatrix: React.FC = () => {
     <div className="space-y-6">
       {/* Sport Selector Minimalist Pills */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-        {sports.map((sport) => {
+        {uniqueSports.map((sport) => {
           const isSelected = sport.slug === selectedSport;
           return (
             <button
@@ -79,7 +90,11 @@ export const SportMatrix: React.FC = () => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className={`grid gap-4 ${
+                fList.length === 1
+                  ? 'grid-cols-1 md:grid-cols-2 max-w-3xl'
+                  : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+              }`}>
                 {fList.map((fixture) => (
                   <MatchCard key={fixture.id} fixture={fixture} />
                 ))}

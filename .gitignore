@@ -10,3 +10,5 @@ dist/
 .env.local
 bugs/
 reference/
+docs/
+TOKEN_USAGE_REPORT.md

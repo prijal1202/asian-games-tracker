@@ -1,35 +1,49 @@
 # Asian Games Country & Sports Tracker
 
-A lightweight, fast, modern web application to track participating Asian countries across all sports disciplines, tournament rounds/stages (e.g., Preliminaries, Quarter-finals, Semi-finals, Finals / Medal matches), and live match scores.
+A production-ready, lightweight, and modern web application to track participating Asian countries across all sports disciplines, tournament rounds/stages (e.g., Preliminaries, Quarter-finals, Semi-finals, Finals / Medal matches), live match scores, and real-time medal standings.
+
+Integrates directly with the official **Asian Games 2026 Results System** (`https://results.asiangames2026.org/`) via reverse-engineered binary zlib decompression.
 
 ---
 
 ## 🌟 Key Features
 
+* **Live 2026 Results & Scraper Ingestion:**
+  * Direct synchronization with official Asian Games 2026 system (`results.asiangames2026.org`).
+  * Binary protocol decompression (`zlib.decompress(response.text.encode('latin-1'))`) handling real-time disciplines, schedules, and medal standings.
+  * Resilient offline caching in SQLite (`tracker.db`) ensures instant sub-10ms response times even during network dropouts or off-season periods.
+  * Full coverage for all **45 Olympic Council of Asia (OCA) Member Nations** (including Nepal, Bhutan, Bangladesh, Sri Lanka, Maldives, etc.).
+
+* **Medal Standings Leaderboard:**
+  * Real-time medal table sorting by Gold, Silver, Bronze, or Total medals.
+  * Visual podium ranks for Top 3 nations (Gold, Silver, Bronze badges).
+  * Direct one-click navigation from any country's medal row into their full Country Hub dossier.
+  * Live filter search across all 45 participating nations.
+
 * **Country Hub (Country-First Tracking):**
-  * Select or search any country (e.g., India, Japan, China, South Korea) to view their entire campaign.
-  * Medal tallies (Gold, Silver, Bronze, Total) and total participating sports.
-  * Sport-by-sport cards displaying the **highest active tournament round** reached (e.g. `Semi-final`, `Final / Gold Medal Match`).
-  * Fixtures list showing opponent flag, set scores, match status, and venue.
+  * Select or search any participating Asian country to view their complete games dossier.
+  * Country medal breakdown and participating sports count.
+  * Sport-by-sport cards displaying the **highest active tournament round** reached (e.g., `Group Stage`, `Quarter-final`, `Semi-final`, `Final / Gold Medal Match`).
+  * Full schedule of upcoming, live, and completed fixtures with opponent flags, athlete names, and set scores.
 
 * **Sport Matrix View:**
-  * Select any sport (Badminton, Table Tennis, Archery, Cricket, Hockey, Swimming) to see fixtures organized stage-by-stage (Group Stage → Knockout Rounds → Finals).
+  * Browse fixtures grouped stage-by-stage (Preliminary Rounds → Quarter-finals → Semi-finals → Finals).
+  * Filter by sport discipline (Badminton, Table Tennis, Archery, Cricket, Hockey, Swimming, etc.).
 
 * **Live Now Tab:**
-  * Real-time view of ongoing matches with live pulsing indicators and current scores.
+  * Real-time view of ongoing matches with live pulsing indicators, athlete rosters, and set split breakdowns.
 
-* **Resilient Data & Web Scraper Pipeline:**
-  * Built-in scraper engine with async `httpx` + `BeautifulSoup4`.
-  * Standardized country code normalization (`CountryNormalizer`) and stage normalization (`StageNormalizer`).
-  * On-demand **"Sync Now"** trigger and last-synced timestamp.
-  * Local SQLite caching with idempotent `ON CONFLICT` upserts for sub-10ms API responses.
+* **On-Demand Sync & Health Monitoring:**
+  * Instant **"Sync Now"** button in header with live sync status and timestamps.
+  * Health status endpoint (`/api/scraper/status`) tracking last sync times, source, and error logs.
 
 ---
 
 ## 🛠️ Architecture & Tech Stack
 
-* **Backend:** Python 3.10+, FastAPI, Uvicorn, SQLite3, `httpx`, `beautifulsoup4`, `pytest`
+* **Backend:** Python 3.10+, FastAPI, Uvicorn, SQLite3, `httpx`, `zlib`, `beautifulsoup4`, `pytest`
 * **Frontend:** React 18, Vite, TypeScript, Tailwind CSS, Lucide React
+* **Data Sources:** Official Asian Games 2026 Bornan API with graceful HTML scraper fallback
 
 ---
 
@@ -43,8 +57,15 @@ cd backend
 python -m pip install -r requirements.txt
 python -m uvicorn backend.main:app --reload --port 8000
 ```
-* API Documentation (Swagger UI): `http://localhost:8000/docs`
-* API Endpoints: `http://localhost:8000/api/countries`, `/api/fixtures`, etc.
+* **API Documentation (Swagger UI):** `http://localhost:8000/docs`
+* **API Endpoints:**
+  * `GET /api/countries` - List all participating Asian countries
+  * `GET /api/countries/{code}/overview` - Country dossier (sports, highest round, fixtures)
+  * `GET /api/medals` - Real-time medal standings leaderboard
+  * `GET /api/sports` - List sports disciplines
+  * `GET /api/fixtures` - Filterable fixtures by sport, country, and status
+  * `POST /api/scraper/sync` - Trigger live sync from Asian Games 2026
+  * `GET /api/scraper/status` - Check sync status and health logs
 
 ### 2. Start the Frontend UI
 
@@ -60,13 +81,13 @@ npm run dev
 
 ## 🧪 Running Tests & Build Verification
 
-### Backend Tests
+### Backend Pytest Suite
 ```bash
-# Run the complete test suite (API, Database, Scraper, E2E)
+# Runs complete unit and integration tests (20 tests)
 python -m pytest backend/tests/ -v
 ```
 
-### Frontend Build Check
+### Frontend Production Build
 ```bash
 cd frontend
 npm run build

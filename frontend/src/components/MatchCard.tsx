@@ -8,20 +8,20 @@ interface MatchCardProps {
   highlightCountryCode?: string;
 }
 
-// Sport-specific emoji indicator
-const getSportEmoji = (slug: string, eventName: string): string => {
+// Clean sport name / tag indicator
+const getSportTag = (slug: string, eventName: string): string => {
   const s = (slug + ' ' + eventName).toLowerCase();
-  if (s.includes('cricket') || s.includes('ckt')) return '🏏';
-  if (s.includes('badminton') || s.includes('bmt')) return '🏸';
-  if (s.includes('table-tennis') || s.includes('tte') || s.includes('table tennis')) return '🏓';
-  if (s.includes('tennis') || s.includes('ten')) return '🎾';
-  if (s.includes('archery') || s.includes('arc')) return '🏹';
-  if (s.includes('football') || s.includes('fbl') || s.includes('soccer')) return '⚽';
-  if (s.includes('hockey') || s.includes('hoc')) return '🏑';
-  if (s.includes('basketball') || s.includes('bkb')) return '🏀';
-  if (s.includes('swim') || s.includes('aquatics') || s.includes('swm')) return '🏊';
-  if (s.includes('karate') || s.includes('judo') || s.includes('wrestling') || s.includes('box')) return '🥋';
-  return '🏆';
+  if (s.includes('cricket') || s.includes('ckt')) return 'Cricket';
+  if (s.includes('badminton') || s.includes('bmt')) return 'Badminton';
+  if (s.includes('table-tennis') || s.includes('tte') || s.includes('table tennis')) return 'Table Tennis';
+  if (s.includes('tennis') || s.includes('ten')) return 'Tennis';
+  if (s.includes('archery') || s.includes('arc')) return 'Archery';
+  if (s.includes('football') || s.includes('fbl') || s.includes('soccer')) return 'Football';
+  if (s.includes('hockey') || s.includes('hoc')) return 'Hockey';
+  if (s.includes('basketball') || s.includes('bkb')) return 'Basketball';
+  if (s.includes('swim') || s.includes('aquatics') || s.includes('swm')) return 'Aquatics';
+  if (s.includes('karate') || s.includes('judo') || s.includes('wrestling') || s.includes('box')) return 'Combat';
+  return 'Sports';
 };
 
 // Clean up cricket scores (e.g. "102 - 7" -> "102/7")
@@ -35,7 +35,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
   const isCompleted = fixture.status === 'COMPLETED';
   const isUpcoming = fixture.status === 'UPCOMING';
 
-  const sportEmoji = getSportEmoji(fixture.sport_slug, fixture.event_name);
+  const sportLabel = getSportTag(fixture.sport_slug, fixture.event_name);
   const isCricket =
     fixture.sport_slug === 'ckt' ||
     fixture.sport_slug === 'cricket' ||
@@ -79,36 +79,36 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
 
   return (
     <div
-      className={`rounded-2xl border transition-all duration-200 p-4 shadow-lg backdrop-blur-md ${
+      className={`rounded-2xl border transition-all duration-200 p-4 bg-white shadow-sm ${
         isLive
-          ? 'bg-[#0f1422] border-red-500/50 shadow-red-950/30 ring-1 ring-red-500/30'
-          : 'bg-[#0e131f] hover:bg-[#131929] border-white/10 hover:border-white/20 shadow-black/40'
+          ? 'border-red-300 ring-1 ring-red-400/30'
+          : 'border-neutral-200 hover:border-neutral-300'
       }`}
     >
-      {/* Top Header: Sport, Stage Round & Live Badge */}
-      <div className="flex items-center justify-between text-xs text-slate-400 mb-3 gap-2">
+      {/* Top Header: Sport Tag, Stage Round & Live Badge */}
+      <div className="flex items-center justify-between text-xs text-neutral-500 mb-3 gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-base flex-shrink-0" role="img" aria-label="sport">
-            {sportEmoji}
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-700 border border-neutral-200/60">
+            {sportLabel}
           </span>
-          <span className="font-bold text-sky-400 uppercase tracking-widest text-[10px] truncate">
+          <span className="font-semibold text-neutral-600 uppercase tracking-wider text-[11px] truncate">
             {fixture.stage_round}
           </span>
         </div>
 
         <div className="flex items-center gap-1.5 flex-shrink-0">
           {isLive ? (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider bg-red-950/90 text-red-400 border border-red-700/80 animate-pulse shadow-sm shadow-red-900/50">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-red-50 text-red-700 border border-red-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
               LIVE
             </span>
           ) : isCompleted ? (
-            <span className="px-2.5 py-0.5 rounded-md text-[10px] font-semibold tracking-wider uppercase bg-[#161d2d] text-slate-300 border border-white/10">
+            <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wider uppercase bg-neutral-100 text-neutral-600 border border-neutral-200">
               Official
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-medium bg-[#161d2d] text-slate-400 border border-white/10">
-              <Clock className="w-3 h-3 text-slate-500" />
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-neutral-50 text-neutral-600 border border-neutral-200">
+              <Clock className="w-3 h-3 text-neutral-400" />
               {new Date(fixture.scheduled_at).toLocaleTimeString([], {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -118,17 +118,17 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
         </div>
       </div>
 
-      {/* Competitors & Scores Section (Adaptive) */}
-      <div className="space-y-2 mb-3">
+      {/* Competitors & Scores Section (Editorial Adaptive Layout) */}
+      <div className="space-y-1.5 mb-3">
         {/* Team A */}
         <div
-          className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl border transition ${
+          className={`flex items-center justify-between px-3 py-2 rounded-xl border transition ${
             highlightCountryCode === fixture.team_a_code
-              ? 'bg-blue-950/60 border-blue-500/50 shadow-sm'
-              : 'bg-[#141b2a] border-white/5'
+              ? 'bg-neutral-100 border-neutral-300 font-semibold'
+              : 'bg-neutral-50/70 border-neutral-100 hover:bg-neutral-50'
           }`}
         >
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
             <CountryFlag
               code={fixture.team_a_code}
               name={fixture.team_a_name}
@@ -137,31 +137,33 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
             />
             <div className="min-w-0 flex items-center gap-1.5">
               <span
-                className={`text-sm font-semibold truncate ${
-                  highlightCountryCode === fixture.team_a_code ? 'text-white font-bold' : 'text-slate-200'
+                className={`text-sm truncate ${
+                  highlightCountryCode === fixture.team_a_code
+                    ? 'text-neutral-950 font-bold'
+                    : 'text-neutral-800 font-medium'
                 }`}
               >
                 {fixture.team_a_name || fixture.team_a_code}
               </span>
-              <span className="text-[10px] px-1.5 py-0.2 bg-[#090d16] text-slate-400 font-mono font-bold rounded border border-white/10">
+              <span className="text-[10px] px-1.5 py-0.2 bg-white text-neutral-500 font-mono font-medium rounded border border-neutral-200">
                 {fixture.team_a_code}
               </span>
             </div>
             {fixture.winner_code === fixture.team_a_code && (
-              <Trophy className="w-4 h-4 text-amber-400 fill-amber-400/20 shrink-0 ml-1" />
+              <Trophy className="w-3.5 h-3.5 text-neutral-900 fill-neutral-900 shrink-0 ml-1" />
             )}
           </div>
 
           {/* Team A Score */}
           <div className="text-right flex-shrink-0 ml-2">
             {scoreA ? (
-              <span className="text-lg sm:text-xl font-extrabold font-mono tracking-tight text-white">
+              <span className="text-base sm:text-lg font-bold font-mono tracking-tight text-neutral-900">
                 {scoreA}
               </span>
             ) : isUpcoming ? (
-              <span className="text-xs text-slate-500 font-mono">-</span>
+              <span className="text-xs text-neutral-400 font-mono">-</span>
             ) : (
-              <span className="text-sm text-slate-400 font-mono">0</span>
+              <span className="text-sm text-neutral-500 font-mono">0</span>
             )}
           </div>
         </div>
@@ -169,13 +171,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
         {/* Team B */}
         {fixture.team_b_code && (
           <div
-            className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl border transition ${
+            className={`flex items-center justify-between px-3 py-2 rounded-xl border transition ${
               highlightCountryCode === fixture.team_b_code
-                ? 'bg-blue-950/60 border-blue-500/50 shadow-sm'
-                : 'bg-[#141b2a] border-white/5'
+                ? 'bg-neutral-100 border-neutral-300 font-semibold'
+                : 'bg-neutral-50/70 border-neutral-100 hover:bg-neutral-50'
             }`}
           >
-            <div className="flex items-center gap-3 min-w-0">
+            <div className="flex items-center gap-2.5 min-w-0">
               <CountryFlag
                 code={fixture.team_b_code}
                 name={fixture.team_b_name}
@@ -184,31 +186,33 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
               />
               <div className="min-w-0 flex items-center gap-1.5">
                 <span
-                  className={`text-sm font-semibold truncate ${
-                    highlightCountryCode === fixture.team_b_code ? 'text-white font-bold' : 'text-slate-200'
+                  className={`text-sm truncate ${
+                    highlightCountryCode === fixture.team_b_code
+                      ? 'text-neutral-950 font-bold'
+                      : 'text-neutral-800 font-medium'
                   }`}
                 >
                   {fixture.team_b_name || fixture.team_b_code}
                 </span>
-                <span className="text-[10px] px-1.5 py-0.2 bg-[#090d16] text-slate-400 font-mono font-bold rounded border border-white/10">
+                <span className="text-[10px] px-1.5 py-0.2 bg-white text-neutral-500 font-mono font-medium rounded border border-neutral-200">
                   {fixture.team_b_code}
                 </span>
               </div>
               {fixture.winner_code === fixture.team_b_code && (
-                <Trophy className="w-4 h-4 text-amber-400 fill-amber-400/20 shrink-0 ml-1" />
+                <Trophy className="w-3.5 h-3.5 text-neutral-900 fill-neutral-900 shrink-0 ml-1" />
               )}
             </div>
 
             {/* Team B Score */}
             <div className="text-right flex-shrink-0 ml-2">
               {scoreB ? (
-                <span className="text-lg sm:text-xl font-extrabold font-mono tracking-tight text-white">
+                <span className="text-base sm:text-lg font-bold font-mono tracking-tight text-neutral-900">
                   {scoreB}
                 </span>
               ) : isUpcoming ? (
-                <span className="text-xs text-slate-500 font-mono">-</span>
+                <span className="text-xs text-neutral-400 font-mono">-</span>
               ) : (
-                <span className="text-sm text-slate-400 font-mono">0</span>
+                <span className="text-sm text-neutral-500 font-mono">0</span>
               )}
             </div>
           </div>
@@ -217,17 +221,17 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
 
       {/* Cricket Innings Scorecard Breakdown */}
       {isCricket && (inningsDetail || otherNotes.length > 0) && (
-        <div className="mb-2.5 p-2.5 rounded-xl bg-[#080b12] border border-white/10 text-xs">
-          <div className="flex items-center gap-1.5 text-amber-400 font-semibold mb-1 text-[11px] uppercase tracking-wider">
-            <span>🏏 Scorecard:</span>
+        <div className="mb-2.5 p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/80 text-xs">
+          <div className="text-neutral-700 font-bold mb-1 text-[11px] uppercase tracking-wider">
+            Scorecard Summary
           </div>
           {inningsDetail && (
-            <p className="text-slate-300 font-mono text-[11px] leading-relaxed">
+            <p className="text-neutral-700 font-mono text-[11px] leading-relaxed">
               {inningsDetail.replace(/^innings:\s*/i, '')}
             </p>
           )}
           {otherNotes.map((note, idx) => (
-            <p key={idx} className="text-emerald-400 text-[11px] font-medium mt-0.5">
+            <p key={idx} className="text-neutral-600 text-[11px] font-medium mt-0.5">
               {note}
             </p>
           ))}
@@ -237,11 +241,11 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
       {/* Racquet Sports Set-by-Set Pills */}
       {isRacquet && setChips.length > 0 && (
         <div className="mb-2.5 flex items-center gap-1.5 flex-wrap">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Sets:</span>
+          <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Sets:</span>
           {setChips.map((set, idx) => (
             <span
               key={idx}
-              className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-[#141b2a] text-slate-200 border border-white/10"
+              className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-neutral-100 text-neutral-700 border border-neutral-200"
             >
               Set {idx + 1}: {set}
             </span>
@@ -251,20 +255,20 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
 
       {/* Athletes info if available */}
       {athletes && (
-        <div className="mb-2.5 text-xs text-slate-300 flex items-center gap-2 bg-[#121826] px-3 py-1.5 rounded-xl border border-white/5">
-          <Users className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-          <span className="truncate text-[11px]">{athletes}</span>
+        <div className="mb-2.5 text-xs text-neutral-600 flex items-center gap-2 bg-neutral-50 px-2.5 py-1.5 rounded-xl border border-neutral-200/60">
+          <Users className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+          <span className="truncate text-[11px] font-medium">{athletes}</span>
         </div>
       )}
 
       {/* Bottom Info Bar: Event discipline & Venue */}
-      <div className="flex items-center justify-between text-xs text-slate-400 pt-2.5 border-t border-white/5 gap-2">
-        <span className="truncate font-semibold text-slate-300 text-[11px]">
+      <div className="flex items-center justify-between text-xs text-neutral-400 pt-2 border-t border-neutral-100 gap-2">
+        <span className="truncate font-medium text-neutral-600 text-[11px]">
           {fixture.event_name}
         </span>
         {fixture.venue && (
-          <span className="flex items-center gap-1 text-slate-400 truncate max-w-[200px] text-[11px]">
-            <MapPin className="w-3 h-3 shrink-0 text-slate-500" />
+          <span className="flex items-center gap-1 text-neutral-400 truncate max-w-[200px] text-[11px]">
+            <MapPin className="w-3 h-3 shrink-0 text-neutral-400" />
             <span className="truncate">{fixture.venue}</span>
           </span>
         )}
@@ -272,7 +276,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
 
       {/* Other commentary for non-cricket sports */}
       {!isCricket && otherNotes.length > 0 && (
-        <div className="mt-2 text-[11px] text-amber-300/90 bg-amber-950/20 border border-amber-900/30 px-2.5 py-1 rounded-lg">
+        <div className="mt-2 text-[11px] text-neutral-700 bg-neutral-50 border border-neutral-200 px-2.5 py-1 rounded-lg">
           {otherNotes.join(' | ')}
         </div>
       )}

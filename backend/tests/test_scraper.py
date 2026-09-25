@@ -28,7 +28,7 @@ def test_fixture_parser_on_html():
         <span class="stage">Quarter-final</span>
         <span class="status">LIVE</span>
         <span class="time">2026-09-25T11:00:00Z</span>
-        <span class="venue">Binjiang Gymnasium</span>
+        <span class="venue">IG Arena, Nagoya</span>
         <div class="team-a" data-country="India">
             <span class="score">1</span>
         </div>
@@ -69,7 +69,7 @@ def test_scraper_engine_upsert(tmp_path):
         <span class="stage">Quarter-final</span>
         <span class="status">COMPLETED</span>
         <span class="time">2026-09-25T11:00:00Z</span>
-        <span class="venue">Binjiang Gymnasium</span>
+        <span class="venue">IG Arena, Nagoya</span>
         <div class="team-a" data-country="India"><span class="score">2</span></div>
         <div class="team-b" data-country="Japan"><span class="score">1</span></div>
         <span class="details">Full Time</span>
@@ -95,7 +95,7 @@ def test_fixture_parser_preserves_unmapped_country():
         <span class="stage">Quarter-final</span>
         <span class="status">LIVE</span>
         <span class="time">2026-09-25T11:00:00Z</span>
-        <span class="venue">Binjiang Gymnasium</span>
+        <span class="venue">IG Arena, Nagoya</span>
         <div class="team-a" data-country="Republic of Ruritania">
             <span class="score">0</span>
         </div>

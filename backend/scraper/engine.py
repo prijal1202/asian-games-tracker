@@ -214,7 +214,7 @@ class ScraperEngine:
                             updated_at = CURRENT_TIMESTAMP;
                     """, (
                         match_id, slug, item.get("DiscDesc") or disc_name, stage, status,
-                        "Official Asian Games Venue", team_a, team_b, score_a, score_b, details, winner
+                        "Aichi-Nagoya 2026 Competition Venue", team_a, team_b, score_a, score_b, details, winner
                     ))
                     synced_fixtures += 1
 

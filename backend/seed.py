@@ -64,17 +64,17 @@ FIXTURES = [
     # Badminton
     (
         "badminton-ms-qf-ind-chn", "badminton", "Men's Singles", "Quarter-final", "COMPLETED",
-        "2026-09-24T09:30:00Z", "Binjiang Gymnasium Court 1", "IND", "CHN", "2", "1",
+        "2026-09-24T09:30:00Z", "Aichi Prefectural Gymnasium (IG Arena Court 1)", "IND", "CHN", "2", "1",
         "21-18, 17-21, 21-19", "IND"
     ),
     (
         "badminton-ms-sf-ind-jpn", "badminton", "Men's Singles", "Semi-final", "LIVE",
-        "2026-09-25T11:00:00Z", "Binjiang Gymnasium Court 1", "IND", "JPN", "1", "1",
+        "2026-09-25T11:00:00Z", "Aichi Prefectural Gymnasium (IG Arena Court 1)", "IND", "JPN", "1", "1",
         "21-19, 18-21 (Set 3: 11-10)", None
     ),
     (
         "badminton-ms-sf-chn-kor", "badminton", "Men's Singles", "Semi-final", "UPCOMING",
-        "2026-09-25T14:30:00Z", "Binjiang Gymnasium Court 1", "CHN", "KOR", "0", "0",
+        "2026-09-25T14:30:00Z", "Aichi Prefectural Gymnasium (IG Arena Court 1)", "CHN", "KOR", "0", "0",
         "Scheduled for 14:30 UTC", None
     ),
     # Cricket
@@ -87,43 +87,43 @@ FIXTURES = [
     # Table Tennis
     (
         "tabletennis-ws-final-chn-jpn", "table-tennis", "Women's Singles", "Final / Gold Medal Match", "UPCOMING",
-        "2026-09-26T12:00:00Z", "Gongshu Canal Sports Park", "CHN", "JPN", "0", "0",
+        "2026-09-26T12:00:00Z", "Aichi Sky Expo Arena Court 1", "CHN", "JPN", "0", "0",
         "Gold Medal Match", None
     ),
 
     # Hockey
     (
         "hockey-m-grp-ind-jpn", "hockey", "Men's Tournament", "Group Stage", "COMPLETED",
-        "2026-09-22T08:00:00Z", "Gongshu Field Hockey Pitch 1", "IND", "JPN", "4", "2",
+        "2026-09-22T08:00:00Z", "Gifu Prefectural Green Stadium Pitch 1", "IND", "JPN", "4", "2",
         "Full Time", "IND"
     ),
     (
         "hockey-m-sf-ind-kor", "hockey", "Men's Tournament", "Semi-final", "LIVE",
-        "2026-09-25T12:15:00Z", "Gongshu Field Hockey Pitch 1", "IND", "KOR", "2", "1",
+        "2026-09-25T12:15:00Z", "Gifu Prefectural Green Stadium Pitch 1", "IND", "KOR", "2", "1",
         "3rd Quarter (38')", None
     ),
     (
         "hockey-m-sf-pak-jpn", "hockey", "Men's Tournament", "Semi-final", "UPCOMING",
-        "2026-09-25T15:00:00Z", "Gongshu Field Hockey Pitch 1", "PAK", "JPN", "0", "0",
+        "2026-09-25T15:00:00Z", "Gifu Prefectural Green Stadium Pitch 1", "PAK", "JPN", "0", "0",
         "Scheduled for 15:00 UTC", None
     ),
 
     # Archery
     (
         "archery-mt-qf-ind-tpe", "archery", "Men's Recurve Team", "Quarter-final", "COMPLETED",
-        "2026-09-23T04:00:00Z", "Fuyang Yinhu Sports Centre", "IND", "TPE", "5", "4",
+        "2026-09-23T04:00:00Z", "Okazaki Central Park Archery Field", "IND", "TPE", "5", "4",
         "Shoot-off: 29-28", "IND"
     ),
     (
         "archery-mt-sf-ind-kor", "archery", "Men's Recurve Team", "Semi-final", "UPCOMING",
-        "2026-09-26T06:00:00Z", "Fuyang Yinhu Sports Centre", "IND", "KOR", "0", "0",
+        "2026-09-26T06:00:00Z", "Okazaki Central Park Archery Field", "IND", "KOR", "0", "0",
         "Scheduled for 06:00 UTC", None
     ),
 
     # Swimming
     (
         "swimming-m-100free-final-chn-jpn", "swimming", "Men's 100m Freestyle", "Final / Gold Medal Match", "COMPLETED",
-        "2026-09-23T12:30:00Z", "Hangzhou Olympic Sports Centre", "CHN", "JPN", "46.97", "47.88",
+        "2026-09-23T12:30:00Z", "Nippon Gaishi Sports Plaza (Rainbow Pool)", "CHN", "JPN", "46.97", "47.88",
         "Asian Record set by China", "CHN"
     ),
 ]

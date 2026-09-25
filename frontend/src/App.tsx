@@ -10,13 +10,14 @@ import {
 import { CountrySelector } from './components/CountrySelector';
 import { CountryDossier } from './components/CountryDossier';
 import { MatchCard } from './components/MatchCard';
-import { RefreshCw, Radio, Trophy, Activity } from 'lucide-react';
+import { SportMatrix } from './components/SportMatrix';
+import { RefreshCw, Radio, Trophy, Activity, Layers } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>('IND');
   const [overview, setOverview] = useState<CountryOverview | null>(null);
-  const [activeTab, setActiveTab] = useState<'country' | 'live' | 'all'>('country');
+  const [activeTab, setActiveTab] = useState<'country' | 'sports' | 'live'>('country');
   const [liveFixtures, setLiveFixtures] = useState<Fixture[]>([]);
   const [scraperStatus, setScraperStatus] = useState<ScraperStatus | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -131,6 +132,18 @@ export const App: React.FC = () => {
           </button>
 
           <button
+            onClick={() => setActiveTab('sports')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${
+              activeTab === 'sports'
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            }`}
+          >
+            <Layers className="w-4 h-4" />
+            Sport Matrix
+          </button>
+
+          <button
             onClick={() => setActiveTab('live')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${
               activeTab === 'live'
@@ -166,7 +179,14 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 2: Live Now */}
+        {/* Tab 2: Sport Matrix */}
+        {activeTab === 'sports' && (
+          <div className="space-y-6">
+            <SportMatrix />
+          </div>
+        )}
+
+        {/* Tab 3: Live Now */}
         {activeTab === 'live' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">

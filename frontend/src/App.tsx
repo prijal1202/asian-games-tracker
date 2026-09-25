@@ -11,13 +11,14 @@ import { CountrySelector } from './components/CountrySelector';
 import { CountryDossier } from './components/CountryDossier';
 import { MatchCard } from './components/MatchCard';
 import { SportMatrix } from './components/SportMatrix';
-import { RefreshCw, Radio, Trophy, Activity, Layers } from 'lucide-react';
+import { MedalTable } from './components/MedalTable';
+import { RefreshCw, Radio, Trophy, Activity, Layers, Award } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>('IND');
   const [overview, setOverview] = useState<CountryOverview | null>(null);
-  const [activeTab, setActiveTab] = useState<'country' | 'sports' | 'live'>('country');
+  const [activeTab, setActiveTab] = useState<'country' | 'sports' | 'medals' | 'live'>('country');
   const [liveFixtures, setLiveFixtures] = useState<Fixture[]>([]);
   const [scraperStatus, setScraperStatus] = useState<ScraperStatus | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -82,18 +83,28 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleSelectCountryFromMedals = (code: string) => {
+    setSelectedCountryCode(code);
+    setActiveTab('country');
+  };
+
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col antialiased">
       {/* Top Navbar */}
-      <header className="bg-slate-850 border-b border-slate-800 sticky top-0 z-30 backdrop-blur-md bg-slate-900/90">
+      <header className="bg-slate-850 border-b border-slate-800 sticky top-0 z-30 backdrop-blur-md bg-slate-900/90 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-md shadow-blue-600/30">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-600/30">
               <Trophy className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-lg text-white leading-tight">Asian Games Tracker</h1>
-              <p className="text-[11px] text-slate-400">Country & Sports Round Status</p>
+              <div className="flex items-center gap-2">
+                <h1 className="font-bold text-lg text-white leading-tight">Asian Games Tracker</h1>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                  2026 Live
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400">Live Results from results.asiangames2026.org</p>
             </div>
           </div>
 
@@ -101,13 +112,13 @@ export const App: React.FC = () => {
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 transition disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm disabled:opacity-50"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-blue-400' : ''}`} />
-              {isSyncing ? 'Syncing...' : 'Sync Now'}
+              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
+              {isSyncing ? 'Syncing...' : 'Sync Live'}
             </button>
             {scraperStatus?.last_sync && (
-              <span className="hidden sm:inline text-[11px] text-slate-500">
+              <span className="hidden md:inline text-[11px] text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700/60">
                 Synced {new Date(scraperStatus.last_sync).toLocaleTimeString()}
               </span>
             )}
@@ -118,10 +129,10 @@ export const App: React.FC = () => {
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto scrollbar-none">
           <button
             onClick={() => setActiveTab('country')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
               activeTab === 'country'
                 ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
@@ -132,8 +143,20 @@ export const App: React.FC = () => {
           </button>
 
           <button
+            onClick={() => setActiveTab('medals')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
+              activeTab === 'medals'
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            }`}
+          >
+            <Award className="w-4 h-4" />
+            Medal Standings
+          </button>
+
+          <button
             onClick={() => setActiveTab('sports')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
               activeTab === 'sports'
                 ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
@@ -145,14 +168,14 @@ export const App: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('live')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
               activeTab === 'live'
                 ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
             }`}
           >
             <Radio className="w-4 h-4 text-red-400 animate-pulse" />
-            Live Now
+            Live Competitions
           </button>
         </div>
 
@@ -179,14 +202,21 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 2: Sport Matrix */}
+        {/* Tab 2: Medal Standings */}
+        {activeTab === 'medals' && (
+          <div className="space-y-6">
+            <MedalTable onSelectCountry={handleSelectCountryFromMedals} />
+          </div>
+        )}
+
+        {/* Tab 3: Sport Matrix */}
         {activeTab === 'sports' && (
           <div className="space-y-6">
             <SportMatrix />
           </div>
         )}
 
-        {/* Tab 3: Live Now */}
+        {/* Tab 4: Live Now */}
         {activeTab === 'live' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -201,8 +231,8 @@ export const App: React.FC = () => {
 
             {liveFixtures.length === 0 ? (
               <div className="bg-slate-800/40 border border-slate-700/60 rounded-2xl p-12 text-center space-y-2">
-                <p className="text-slate-300 font-medium">No games are currently live right now.</p>
-                <p className="text-xs text-slate-500">Check the Country Hub for upcoming fixtures.</p>
+                <p className="text-slate-300 font-medium">No matches are currently in progress right now.</p>
+                <p className="text-xs text-slate-500">Check the Country Hub or Sport Matrix for upcoming fixtures.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

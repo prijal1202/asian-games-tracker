@@ -45,10 +45,10 @@ export const SportMatrix: React.FC = () => {
             <button
               key={sport.slug}
               onClick={() => setSelectedSport(sport.slug)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
                 isSelected
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-750 border border-slate-700'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40 border-blue-400/40'
+                  : 'bg-[#0e131f] text-slate-300 hover:bg-[#151c2d] hover:text-white border-white/10'
               }`}
             >
               {sport.name}
@@ -58,21 +58,27 @@ export const SportMatrix: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="p-8 text-center text-slate-400">Loading sport brackets...</div>
+        <div className="p-16 text-center text-slate-400">Loading tournament fixtures...</div>
       ) : Object.keys(stageGroups).length === 0 ? (
-        <div className="bg-slate-800/40 border border-slate-700/60 rounded-xl p-8 text-center text-slate-400">
-          No matches found for this sport.
+        <div className="bg-[#0e131f]/70 border border-white/10 rounded-3xl p-12 text-center text-slate-400">
+          No scheduled fixtures found for this discipline.
         </div>
       ) : (
-        <div className="space-y-6">
-          {Object.entries(stageGroups).map(([stage, stageFixtures]) => (
+        <div className="space-y-8">
+          {Object.entries(stageGroups).map(([stage, fList]) => (
             <div key={stage} className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                <Layers className="w-4 h-4 text-blue-400" />
-                {stage} ({stageFixtures.length})
-              </h4>
+              <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                <Layers className="w-4 h-4 text-sky-400" />
+                <h3 className="font-extrabold text-white text-sm sm:text-base tracking-tight uppercase">
+                  {stage}
+                </h3>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-slate-400 font-mono">
+                  {fList.length} matches
+                </span>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {stageFixtures.map((fixture) => (
+                {fList.map((fixture) => (
                   <MatchCard key={fixture.id} fixture={fixture} />
                 ))}
               </div>

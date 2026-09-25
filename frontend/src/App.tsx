@@ -1,83 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Country, CountryOverview, Fixture, ScraperStatus } from './types';
-import {
-  fetchCountries,
-  fetchCountryOverview,
-  fetchFixtures,
-  triggerScraperSync,
-  fetchScraperStatus,
-} from './api';
+import { fetchCountries, fetchCountryOverview, fetchFixtures, fetchScraperStatus, triggerScraperSync } from './api';
 import { CountrySelector } from './components/CountrySelector';
 import { CountryDossier } from './components/CountryDossier';
-import { MatchCard } from './components/MatchCard';
 import { SportMatrix } from './components/SportMatrix';
 import { MedalTable } from './components/MedalTable';
-import { RefreshCw, Radio, Trophy, Activity, Layers, Award } from 'lucide-react';
+import { MatchCard } from './components/MatchCard';
+import { RefreshCw, Activity, Layers, Radio, Award, Flame } from 'lucide-react';
 
-export const App: React.FC = () => {
+export const App = () => {
   const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCountryCode, setSelectedCountryCode] = useState<string>('IND');
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string>('NEP');
   const [overview, setOverview] = useState<CountryOverview | null>(null);
-  const [activeTab, setActiveTab] = useState<'country' | 'sports' | 'medals' | 'live'>('country');
   const [liveFixtures, setLiveFixtures] = useState<Fixture[]>([]);
   const [scraperStatus, setScraperStatus] = useState<ScraperStatus | null>(null);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const [activeTab, setActiveTab] = useState<'country' | 'medals' | 'sports' | 'live'>('country');
   const [loading, setLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
 
-  const loadData = async () => {
+  useEffect(() => {
+    loadInitialData();
+  }, []);
+
+  useEffect(() => {
+    if (selectedCountryCode) {
+      loadCountryOverview(selectedCountryCode);
+    }
+  }, [selectedCountryCode]);
+
+  const loadInitialData = async () => {
     try {
-      const [cList, statusData] = await Promise.all([
+      setLoading(true);
+      const [cList, lFixtures, sStatus] = await Promise.all([
         fetchCountries(),
-        fetchScraperStatus().catch(() => null),
+        fetchFixtures({ status: 'LIVE' }),
+        fetchScraperStatus()
       ]);
       setCountries(cList);
-      if (statusData) setScraperStatus(statusData);
-
+      setLiveFixtures(lFixtures);
+      setScraperStatus(sStatus);
       if (cList.length > 0 && !cList.some((c) => c.code === selectedCountryCode)) {
         setSelectedCountryCode(cList[0].code);
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error loading initial data:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    if (selectedCountryCode) {
-      fetchCountryOverview(selectedCountryCode)
-        .then((data) => setOverview(data))
-        .catch(console.error);
+  const loadCountryOverview = async (code: string) => {
+    try {
+      const data = await fetchCountryOverview(code);
+      setOverview(data);
+    } catch (err) {
+      console.error(`Error loading overview for ${code}:`, err);
     }
-  }, [selectedCountryCode]);
-
-  useEffect(() => {
-    if (activeTab === 'live') {
-      fetchFixtures({ status: 'LIVE' })
-        .then((fixtures) => setLiveFixtures(fixtures))
-        .catch(console.error);
-    }
-  }, [activeTab]);
+  };
 
   const handleSync = async () => {
-    setIsSyncing(true);
     try {
+      setIsSyncing(true);
       await triggerScraperSync();
-      await loadData();
+      await loadInitialData();
       if (selectedCountryCode) {
-        const updatedOverview = await fetchCountryOverview(selectedCountryCode);
-        setOverview(updatedOverview);
-      }
-      if (activeTab === 'live') {
-        const fixtures = await fetchFixtures({ status: 'LIVE' });
-        setLiveFixtures(fixtures);
+        await loadCountryOverview(selectedCountryCode);
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error syncing data:', err);
     } finally {
       setIsSyncing(false);
     }
@@ -89,22 +79,26 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased">
-      {/* Top Navbar */}
-      <header className="bg-slate-950/85 border-b border-slate-800/80 sticky top-0 z-30 backdrop-blur-xl shadow-lg shadow-black/40">
+    <div className="min-h-screen bg-[#07090e] text-slate-100 flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+      {/* Olympic Top Navbar */}
+      <header className="bg-[#0b0e17]/90 border-b border-white/10 sticky top-0 z-30 backdrop-blur-xl shadow-2xl shadow-black/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-600/30">
-              <Trophy className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-600 to-blue-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <Flame className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-bold text-lg text-white leading-tight">Asian Games Tracker</h1>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                  2026 Live
+                <h1 className="font-extrabold text-lg sm:text-xl text-white tracking-tight leading-tight">
+                  Asian Games 2026
+                </h1>
+                <span className="text-[10px] uppercase font-black tracking-widest px-2 py-0.5 rounded-full bg-blue-500/15 text-sky-400 border border-blue-500/30">
+                  Live Results
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400">Live Results from results.asiangames2026.org</p>
+              <p className="text-[11px] text-slate-400">
+                Official Ingestion from results.asiangames2026.org
+              </p>
             </div>
           </div>
 
@@ -112,13 +106,13 @@ export const App: React.FC = () => {
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold tracking-wide uppercase bg-blue-600 hover:bg-blue-500 text-white transition shadow-lg shadow-blue-900/30 disabled:opacity-50 cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
               {isSyncing ? 'Syncing...' : 'Sync Live'}
             </button>
             {scraperStatus?.last_sync && (
-              <span className="hidden md:inline text-[11px] text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700/60">
+              <span className="hidden md:inline text-[11px] font-mono text-slate-400 bg-[#121826] px-3 py-1.5 rounded-xl border border-white/10">
                 Synced {new Date(scraperStatus.last_sync).toLocaleTimeString()}
               </span>
             )}
@@ -128,14 +122,14 @@ export const App: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto scrollbar-none">
+        {/* Navigation Tabs (Olympic Minimalist Bar) */}
+        <div className="flex items-center gap-2 border-b border-white/10 pb-3 overflow-x-auto scrollbar-none">
           <button
             onClick={() => setActiveTab('country')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold tracking-wide transition whitespace-nowrap cursor-pointer border ${
               activeTab === 'country'
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                ? 'bg-blue-600 border-blue-400/40 text-white shadow-lg shadow-blue-900/40'
+                : 'bg-[#0e131f] text-slate-300 hover:text-white hover:bg-[#141b2a] border-white/5'
             }`}
           >
             <Activity className="w-4 h-4" />
@@ -144,10 +138,10 @@ export const App: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('medals')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold tracking-wide transition whitespace-nowrap cursor-pointer border ${
               activeTab === 'medals'
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                ? 'bg-blue-600 border-blue-400/40 text-white shadow-lg shadow-blue-900/40'
+                : 'bg-[#0e131f] text-slate-300 hover:text-white hover:bg-[#141b2a] border-white/5'
             }`}
           >
             <Award className="w-4 h-4" />
@@ -156,10 +150,10 @@ export const App: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('sports')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold tracking-wide transition whitespace-nowrap cursor-pointer border ${
               activeTab === 'sports'
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                ? 'bg-blue-600 border-blue-400/40 text-white shadow-lg shadow-blue-900/40'
+                : 'bg-[#0e131f] text-slate-300 hover:text-white hover:bg-[#141b2a] border-white/5'
             }`}
           >
             <Layers className="w-4 h-4" />
@@ -168,10 +162,10 @@ export const App: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('live')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold tracking-wide transition whitespace-nowrap cursor-pointer border ${
               activeTab === 'live'
-                ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                ? 'bg-red-600 border-red-400/40 text-white shadow-lg shadow-red-950/50'
+                : 'bg-[#0e131f] text-slate-300 hover:text-white hover:bg-[#141b2a] border-white/5'
             }`}
           >
             <Radio className="w-4 h-4 text-red-400 animate-pulse" />
@@ -183,7 +177,7 @@ export const App: React.FC = () => {
         {activeTab === 'country' && (
           <div className="space-y-6">
             {loading ? (
-              <div className="p-12 text-center text-slate-400">Loading countries...</div>
+              <div className="p-16 text-center text-slate-400">Loading countries...</div>
             ) : (
               <>
                 <CountrySelector
@@ -195,7 +189,7 @@ export const App: React.FC = () => {
                 {overview ? (
                   <CountryDossier overview={overview} />
                 ) : (
-                  <div className="p-12 text-center text-slate-400">Loading country campaign...</div>
+                  <div className="p-16 text-center text-slate-400">Loading country campaign...</div>
                 )}
               </>
             )}
@@ -224,15 +218,15 @@ export const App: React.FC = () => {
                 <Radio className="w-5 h-5 text-red-400" />
                 Live Competitions Across Sports
               </h3>
-              <span className="text-xs px-2.5 py-1 bg-red-950/80 text-red-400 border border-red-800 rounded-full font-medium">
+              <span className="text-xs px-3 py-1 bg-red-950/80 text-red-400 border border-red-700/80 rounded-full font-bold uppercase tracking-wider">
                 {liveFixtures.length} Ongoing
               </span>
             </div>
 
             {liveFixtures.length === 0 ? (
-              <div className="bg-slate-800/40 border border-slate-700/60 rounded-2xl p-12 text-center space-y-2">
-                <p className="text-slate-300 font-medium">No matches are currently in progress right now.</p>
-                <p className="text-xs text-slate-500">Check the Country Hub or Sport Matrix for upcoming fixtures.</p>
+              <div className="bg-[#0e131f]/70 border border-white/10 rounded-3xl p-16 text-center space-y-2">
+                <p className="text-white font-semibold">No matches are currently in progress right now.</p>
+                <p className="text-xs text-slate-400">Check the Country Hub or Sport Matrix for upcoming fixtures.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -37,18 +37,18 @@ export const SportMatrix: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Sport Selector Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+      {/* Sport Selector Minimalist Pills */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         {sports.map((sport) => {
           const isSelected = sport.slug === selectedSport;
           return (
             <button
               key={sport.slug}
               onClick={() => setSelectedSport(sport.slug)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
                 isSelected
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40 border-blue-400/40'
-                  : 'bg-[#0e131f] text-slate-300 hover:bg-[#151c2d] hover:text-white border-white/10'
+                  ? 'bg-black text-white border-black shadow-sm'
+                  : 'bg-white text-neutral-700 hover:bg-neutral-100 border-neutral-200'
               }`}
             >
               {sport.name}
@@ -58,21 +58,23 @@ export const SportMatrix: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="p-16 text-center text-slate-400">Loading tournament fixtures...</div>
+        <div className="p-16 text-center text-neutral-400">Loading tournament fixtures...</div>
       ) : Object.keys(stageGroups).length === 0 ? (
-        <div className="bg-[#0e131f]/70 border border-white/10 rounded-3xl p-12 text-center text-slate-400">
+        <div className="bg-white border border-neutral-200 rounded-2xl p-12 text-center text-neutral-400 text-sm">
           No scheduled fixtures found for this discipline.
         </div>
       ) : (
         <div className="space-y-8">
           {Object.entries(stageGroups).map(([stage, fList]) => (
             <div key={stage} className="space-y-3">
-              <div className="flex items-center gap-2 pb-2 border-b border-white/10">
-                <Layers className="w-4 h-4 text-sky-400" />
-                <h3 className="font-extrabold text-white text-sm sm:text-base tracking-tight uppercase">
-                  {stage}
-                </h3>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-slate-400 font-mono">
+              <div className="flex items-center justify-between pb-2 border-b border-neutral-200">
+                <div className="flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-neutral-400" />
+                  <h3 className="font-bold text-neutral-900 text-sm sm:text-base tracking-tight uppercase">
+                    {stage}
+                  </h3>
+                </div>
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-600 font-mono border border-neutral-200">
                   {fList.length} matches
                 </span>
               </div>

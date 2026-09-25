@@ -96,7 +96,7 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
       alt={name || code}
       onError={() => setHasError(true)}
       loading="lazy"
-      className={`inline-block object-cover border border-white/10 shadow-sm flex-shrink-0 ${sizeClasses} ${className}`}
+      className={`inline-block object-cover border border-black/10 shadow-sm flex-shrink-0 ${sizeClasses} ${className}`}
     />
   );
 };

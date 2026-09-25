@@ -31,11 +31,11 @@
 - Create: `backend/scraper/bornan_client.py`
 - Test: `backend/tests/test_bornan_client.py`
 
-- [ ] **Step 1: Write failing test for BornanClient**
-- [ ] **Step 2: Run test to verify it fails**
-- [ ] **Step 3: Implement BornanClient with Latin-1 zlib decompression**
-- [ ] **Step 4: Run test to verify it passes**
-- [ ] **Step 5: Commit**
+- [x] **Step 1: Write failing test for BornanClient**
+- [x] **Step 2: Run test to verify it fails**
+- [x] **Step 3: Implement BornanClient with Latin-1 zlib decompression**
+- [x] **Step 4: Run test to verify it passes**
+- [x] **Step 5: Commit**
 
 ---
 
@@ -46,11 +46,11 @@
 - Modify: `backend/main.py`
 - Test: `backend/tests/test_live_ingestion.py`
 
-- [ ] **Step 1: Write failing test for live Bornan sync and `/api/medals` endpoint**
-- [ ] **Step 2: Run test to verify it fails**
-- [ ] **Step 3: Implement sync integration and `/api/medals` route**
-- [ ] **Step 4: Run test to verify it passes**
-- [ ] **Step 5: Commit**
+- [x] **Step 1: Write failing test for live Bornan sync and `/api/medals` endpoint**
+- [x] **Step 2: Run test to verify it fails**
+- [x] **Step 3: Implement sync integration and `/api/medals` route**
+- [x] **Step 4: Run test to verify it passes**
+- [x] **Step 5: Commit**
 
 ---
 
@@ -60,9 +60,9 @@
 - Modify: `frontend/src/types.ts`
 - Modify: `frontend/src/api.ts`
 
-- [ ] **Step 1: Add MedalStanding, Athlete models, and `fetchMedals()` function**
-- [ ] **Step 2: Verify TypeScript compilation**
-- [ ] **Step 3: Commit**
+- [x] **Step 1: Add MedalStanding, Athlete models, and `fetchMedals()` function**
+- [x] **Step 2: Verify TypeScript compilation**
+- [x] **Step 3: Commit**
 
 ---
 
@@ -73,11 +73,11 @@
 - Modify: `frontend/src/components/MatchCard.tsx`
 - Modify: `frontend/src/App.tsx`
 
-- [ ] **Step 1: Create MedalTable component with Gold/Silver/Bronze sorting**
-- [ ] **Step 2: Update MatchCard with athlete names and split scores**
-- [ ] **Step 3: Update App.tsx with Medal Table tab and enhanced UI**
-- [ ] **Step 4: Run `npm run build` to verify clean build**
-- [ ] **Step 5: Commit**
+- [x] **Step 1: Create MedalTable component with Gold/Silver/Bronze sorting**
+- [x] **Step 2: Update MatchCard with athlete names and split scores**
+- [x] **Step 3: Update App.tsx with Medal Table tab and enhanced UI**
+- [x] **Step 4: Run `npm run build` to verify clean build**
+- [x] **Step 5: Commit**
 
 ---
 
@@ -87,7 +87,7 @@
 - Modify: `README.md`
 - Run: Full backend test suite and frontend build
 
-- [ ] **Step 1: Run complete backend pytest suite**
-- [ ] **Step 2: Run frontend production build**
-- [ ] **Step 3: Update README.md with live Bornan scraper details**
-- [ ] **Step 4: Commit**
+- [x] **Step 1: Run complete backend pytest suite**
+- [x] **Step 2: Run frontend production build**
+- [x] **Step 3: Update README.md with live Bornan scraper details**
+- [x] **Step 4: Commit**

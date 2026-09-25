@@ -47,6 +47,22 @@ def get_countries():
     conn.close()
     return [dict(r) for r in rows]
 
+@app.get("/api/medals")
+def get_medals():
+    db_path = get_current_db_path()
+    conn = get_db_connection(db_path)
+    rows = conn.execute("""
+        SELECT 
+            code, name, flag_url, gold_medals as gold, silver_medals as silver, bronze_medals as bronze,
+            (gold_medals + silver_medals + bronze_medals) as total,
+            DENSE_RANK() OVER (ORDER BY gold_medals DESC, silver_medals DESC, bronze_medals DESC) as rank
+        FROM countries
+        WHERE (gold_medals + silver_medals + bronze_medals) > 0 OR code IN ('IND', 'JPN', 'CHN', 'KOR', 'NEP')
+        ORDER BY rank ASC, gold DESC, total DESC, name ASC
+    """).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
 @app.get("/api/countries/{code}/overview")
 def get_country_overview(code: str):
     db_path = get_current_db_path()

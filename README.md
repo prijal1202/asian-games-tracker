@@ -12,7 +12,7 @@ Integrates directly with the official **Asian Games 2026 Results System** (`http
   * Direct synchronization with official Asian Games 2026 system (`results.asiangames2026.org`).
   * Binary protocol decompression (`zlib.decompress(response.text.encode('latin-1'))`) handling real-time disciplines, schedules, and medal standings.
   * Resilient offline caching in SQLite (`tracker.db`) ensures instant sub-10ms response times even during network dropouts or off-season periods.
-  * Full coverage for all **45 Olympic Council of Asia (OCA) Member Nations** (including Nepal, Bhutan, Bangladesh, Sri Lanka, Maldives, etc.).
+  * Full coverage for all **45 Olympic Council of Asia (OCA) Member Nations**.
 
 * **Medal Standings Leaderboard:**
   * Real-time medal table sorting by Gold, Silver, Bronze, or Total medals.

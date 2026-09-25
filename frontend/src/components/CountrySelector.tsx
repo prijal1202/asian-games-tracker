@@ -160,7 +160,7 @@ export const CountrySelector: React.FC<CountrySelectorProps> = ({
         </div>
 
         {/* Hairline Divided Country List (Reference 1.png style) */}
-        <div className="max-h-[500px] overflow-y-auto divide-y divide-neutral-100 pr-1 -mr-1 scrollbar-thin scrollbar-thumb-neutral-200">
+        <div className="max-h-[480px] overflow-y-auto divide-y divide-neutral-100 pr-1 -mr-1 scrollbar-thin scrollbar-thumb-neutral-200">
           {filtered.length === 0 ? (
             <div className="py-8 text-center text-xs text-neutral-400">
               No country matches "{searchQuery}"
@@ -176,55 +176,56 @@ export const CountrySelector: React.FC<CountrySelectorProps> = ({
                     onSelect(country.code);
                     setIsMobileExpanded(false);
                   }}
-                  className={`w-full flex items-center justify-between p-2.5 text-left rounded-xl transition cursor-pointer ${
+                  className={`w-full flex items-center justify-between py-2.5 px-2.5 text-left rounded-xl transition cursor-pointer ${
                     isCurrent
-                      ? 'bg-black text-white shadow-sm'
-                      : 'hover:bg-neutral-50 text-neutral-900'
+                      ? 'bg-neutral-100 font-semibold text-neutral-950'
+                      : 'hover:bg-neutral-50 text-neutral-800'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0">
                     <CountryFlag
                       code={country.code}
                       name={country.name}
                       fallbackEmoji={country.flag_url}
                       size="md"
                     />
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={`font-semibold text-xs sm:text-sm truncate ${
-                            isCurrent ? 'text-white' : 'text-neutral-900'
-                          }`}
-                        >
-                          {country.name}
-                        </span>
-                        <span
-                          className={`text-[10px] font-mono font-medium ${
-                            isCurrent ? 'text-neutral-300' : 'text-neutral-400'
-                          }`}
-                        >
-                          {country.code}
-                        </span>
-                      </div>
+                    <div className="min-w-0 flex items-center gap-1.5">
+                      <span
+                        className={`text-sm truncate ${
+                          isCurrent ? 'font-bold text-black' : 'font-medium text-neutral-900'
+                        }`}
+                      >
+                        {country.name}
+                      </span>
+                      <span className="text-[10px] font-mono text-neutral-400 font-medium">
+                        {country.code}
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-                    <div
-                      className={`text-[10px] font-mono flex items-center gap-1.5 ${
-                        isCurrent ? 'text-neutral-300' : 'text-neutral-500'
-                      }`}
-                    >
-                      <span className="font-semibold">{country.gold_medals}G</span>
+                    <div className="text-[10px] font-mono text-neutral-500 flex items-center gap-1.5">
+                      <span className="font-semibold text-neutral-800">{country.gold_medals}G</span>
                       <span>{country.silver_medals}S</span>
                       <span>{country.bronze_medals}B</span>
                     </div>
-                    {isCurrent && <Check className="w-3.5 h-3.5 text-white ml-1" />}
+                    {isCurrent && <Check className="w-4 h-4 text-black ml-1" />}
                   </div>
                 </button>
               );
             })
           )}
+        </div>
+
+        {/* Action Button (Reference 1.png GET STARTED style) */}
+        <div className="pt-2 border-t border-neutral-100">
+          <button
+            type="button"
+            onClick={() => setIsMobileExpanded(false)}
+            className="w-full py-3 bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-sm cursor-pointer text-center"
+          >
+            Get Started
+          </button>
         </div>
       </div>
     </div>

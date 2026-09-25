@@ -24,18 +24,21 @@ export const CountryDossier: React.FC<CountryDossierProps> = ({ overview }) => {
               size="xl"
             />
             <div>
-              <div className="flex items-center gap-2.5">
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
-                  {country.name}
-                </h1>
-                <span className="text-xs px-2.5 py-0.5 bg-neutral-100 text-neutral-700 font-mono font-bold rounded-lg border border-neutral-200">
-                  {country.code}
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-700 border border-neutral-200">
+                  {country.code} Delegation
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-neutral-400 font-mono">
+                  Asian Games 2026
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-neutral-500 mt-1">
-                Participating across{' '}
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight leading-tight">
+                {country.name}: National Campaign & Tournament Fixtures
+              </h1>
+              <p className="text-xs sm:text-sm text-neutral-600 mt-2 max-w-2xl leading-relaxed">
+                Active tracking across{' '}
                 <span className="text-neutral-900 font-semibold">{participating_sports.length}</span>{' '}
-                sports disciplines in Asian Games 2026
+                participating sports disciplines, stage brackets, and live medal contention in Aichi-Nagoya.
               </p>
             </div>
           </div>

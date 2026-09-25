@@ -62,4 +62,53 @@ def init_db(db_path: str = DB_PATH) -> None:
         CREATE INDEX IF NOT EXISTS idx_fixtures_status ON fixtures(status);
     """)
     conn.commit()
+    deduplicate_sports(conn)
     conn.close()
+
+def deduplicate_sports(conn: sqlite3.Connection) -> None:
+    """Consolidates duplicate sports (e.g. 'bdm' vs 'badminton') and repoints fixtures."""
+    cursor = conn.cursor()
+    REMAP = {
+        "bdm": "badminton",
+        "bmt": "badminton",
+        "arc": "archery",
+        "arh": "archery",
+        "ckt": "cricket",
+        "cri": "cricket",
+        "tte": "table-tennis",
+        "hoc": "hockey",
+        "bkb": "basketball",
+        "bk3": "3x3-basketball",
+        "ath": "athletics",
+        "box": "boxing",
+        "bkg": "breaking",
+        "bbl": "baseball",
+        "clb": "sport-climbing",
+        "swm": "swimming",
+        "sho": "shooting",
+        "kte": "karate",
+        "jud": "judo",
+        "wre": "wrestling",
+        "fbl": "football",
+    }
+    for old_slug, canon_slug in REMAP.items():
+        if old_slug == canon_slug:
+            continue
+        cursor.execute("SELECT slug FROM sports WHERE slug = ?", (canon_slug,))
+        canon_exists = cursor.fetchone()
+
+        cursor.execute("SELECT slug, name, category, icon FROM sports WHERE slug = ?", (old_slug,))
+        old_row = cursor.fetchone()
+
+        if old_row:
+            if not canon_exists:
+                cursor.execute("""
+                    INSERT INTO sports (slug, name, category, icon)
+                    VALUES (?, ?, ?, ?);
+                """, (canon_slug, old_row["name"], old_row["category"], old_row["icon"]))
+
+            cursor.execute("UPDATE fixtures SET sport_slug = ? WHERE sport_slug = ?", (canon_slug, old_slug))
+            cursor.execute("DELETE FROM sports WHERE slug = ?", (old_slug,))
+
+    conn.commit()
+

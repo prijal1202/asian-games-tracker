@@ -114,10 +114,10 @@ def get_sports():
     db_path = get_current_db_path()
     conn = get_db_connection(db_path)
     rows = conn.execute("""
-        SELECT s.*, COUNT(f.id) as fixture_count
+        SELECT s.slug, s.name, s.category, s.icon, COUNT(f.id) as fixture_count
         FROM sports s
         LEFT JOIN fixtures f ON f.sport_slug = s.slug
-        GROUP BY s.slug
+        GROUP BY s.name
         ORDER BY s.name ASC
     """).fetchall()
     conn.close()

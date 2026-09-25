@@ -1,5 +1,5 @@
 from __future__ import annotations
-from backend.database import get_db_connection, init_db, DB_PATH
+from backend.database import get_db_connection, init_db, deduplicate_sports, DB_PATH
 
 COUNTRIES = [
     ("CHN", "China", "🇨🇳", 201, 111, 71),
@@ -156,6 +156,7 @@ def seed_default_data(db_path: str = DB_PATH) -> None:
     """, (len(FIXTURES),))
     
     conn.commit()
+    deduplicate_sports(conn)
     conn.close()
 
 if __name__ == "__main__":

@@ -194,3 +194,10 @@ def get_scraper_status():
         "message": "No sync logs available",
         "total_fixtures": total_fixtures
     }
+
+# Serve static frontend build in production if available
+dist_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "dist")
+if os.path.exists(dist_dir):
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/", StaticFiles(directory=dist_dir, html=True), name="static")
+

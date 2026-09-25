@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
   body {
     @apply bg-[#fafafa] text-neutral-900 dark:bg-[#07090e] dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-black selection:text-white dark:selection:bg-blue-600 dark:selection:text-white;
   }

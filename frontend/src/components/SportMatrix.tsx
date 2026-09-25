@@ -47,8 +47,8 @@ export const SportMatrix: React.FC = () => {
               onClick={() => setSelectedSport(sport.slug)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
                 isSelected
-                  ? 'bg-black text-white border-black shadow-sm'
-                  : 'bg-white text-neutral-700 hover:bg-neutral-100 border-neutral-200'
+                  ? 'bg-black dark:bg-white text-white dark:text-neutral-950 border-black dark:border-white shadow-sm'
+                  : 'bg-white dark:bg-[#0e131f] text-neutral-700 dark:text-slate-300 hover:bg-neutral-100 dark:hover:bg-[#151c2d] hover:text-black dark:hover:text-white border-neutral-200 dark:border-white/10'
               }`}
             >
               {sport.name}
@@ -58,23 +58,23 @@ export const SportMatrix: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="p-16 text-center text-neutral-400">Loading tournament fixtures...</div>
+        <div className="p-16 text-center text-neutral-400 dark:text-slate-500">Loading tournament fixtures...</div>
       ) : Object.keys(stageGroups).length === 0 ? (
-        <div className="bg-white border border-neutral-200 rounded-2xl p-12 text-center text-neutral-400 text-sm">
+        <div className="bg-white dark:bg-[#0e131f] border border-neutral-200 dark:border-white/10 rounded-2xl p-12 text-center text-neutral-400 dark:text-slate-500 text-sm shadow-xs">
           No scheduled fixtures found for this discipline.
         </div>
       ) : (
         <div className="space-y-8">
           {Object.entries(stageGroups).map(([stage, fList]) => (
             <div key={stage} className="space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-neutral-200">
+              <div className="flex items-center justify-between pb-2 border-b border-neutral-200 dark:border-white/10">
                 <div className="flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-neutral-400" />
-                  <h3 className="font-bold text-neutral-900 text-sm sm:text-base tracking-tight uppercase">
+                  <Layers className="w-4 h-4 text-neutral-400 dark:text-sky-400" />
+                  <h3 className="font-bold text-neutral-900 dark:text-white text-sm sm:text-base tracking-tight uppercase">
                     {stage}
                   </h3>
                 </div>
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-600 font-mono border border-neutral-200">
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-slate-400 font-mono border border-neutral-200 dark:border-white/10">
                   {fList.length} matches
                 </span>
               </div>

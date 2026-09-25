@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#fafafa] text-neutral-900 min-h-screen font-sans antialiased selection:bg-black selection:text-white;
+    @apply bg-[#fafafa] text-neutral-900 dark:bg-[#07090e] dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-black selection:text-white dark:selection:bg-blue-600 dark:selection:text-white;
   }
 }
 
@@ -25,4 +25,12 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1aa;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
 }

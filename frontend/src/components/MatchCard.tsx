@@ -85,45 +85,45 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
 
   return (
     <div
-      className={`rounded-2xl border transition-all duration-200 p-3.5 bg-white shadow-xs ${
+      className={`rounded-2xl border transition-all duration-200 p-3.5 bg-white dark:bg-[#0e131f] shadow-xs ${
         isLive
-          ? 'border-red-300 ring-1 ring-red-400/30'
-          : 'border-neutral-200/90 hover:border-neutral-300'
+          ? 'border-red-300 dark:border-red-500/50 ring-1 ring-red-400/30 dark:ring-red-500/30'
+          : 'border-neutral-200/90 dark:border-white/10 hover:border-neutral-300 dark:hover:border-white/20'
       }`}
     >
       {/* Top Header: Sport Tag, Event Discipline, Stage Round & Live Badge */}
-      <div className="flex items-center justify-between text-xs text-neutral-500 mb-2.5 gap-2">
+      <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-slate-400 mb-2.5 gap-2">
         <div className="flex items-center gap-1.5 min-w-0 flex-wrap">
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-700 border border-neutral-200/60">
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-white/5 text-neutral-700 dark:text-slate-300 border border-neutral-200/60 dark:border-white/10">
             {sportLabel}
           </span>
           {fixture.event_name && (
             <span
-              className="font-semibold text-neutral-900 text-xs truncate max-w-[140px] sm:max-w-[190px]"
+              className="font-semibold text-neutral-900 dark:text-white text-xs truncate max-w-[140px] sm:max-w-[190px]"
               title={fixture.event_name}
             >
               {fixture.event_name}
             </span>
           )}
-          <span className="text-neutral-300">·</span>
-          <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wider truncate">
+          <span className="text-neutral-300 dark:text-neutral-600">·</span>
+          <span className="text-[10px] font-medium text-neutral-500 dark:text-slate-400 uppercase tracking-wider truncate">
             {fixture.stage_round}
           </span>
         </div>
 
         <div className="flex items-center gap-1.5 flex-shrink-0">
           {isLive ? (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-red-50 text-red-700 border border-red-200">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-red-50 dark:bg-red-950/90 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-700/80">
               <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
               LIVE
             </span>
           ) : isCompleted ? (
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wider uppercase bg-neutral-100 text-neutral-600 border border-neutral-200">
+            <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wider uppercase bg-neutral-100 dark:bg-[#161d2d] text-neutral-600 dark:text-slate-300 border border-neutral-200 dark:border-white/10">
               Official
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-neutral-50 text-neutral-600 border border-neutral-200">
-              <Clock className="w-3 h-3 text-neutral-400" />
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-neutral-50 dark:bg-[#161d2d] text-neutral-600 dark:text-slate-400 border border-neutral-200 dark:border-white/10">
+              <Clock className="w-3 h-3 text-neutral-400 dark:text-slate-500" />
               {new Date(fixture.scheduled_at).toLocaleTimeString([], {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -139,8 +139,8 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
         <div
           className={`flex items-center justify-between px-3 py-2 rounded-xl border transition ${
             highlightCountryCode === fixture.team_a_code
-              ? 'bg-neutral-100 border-neutral-300 font-semibold'
-              : 'bg-neutral-50/70 border-neutral-100 hover:bg-neutral-50'
+              ? 'bg-neutral-100 dark:bg-blue-950/40 border-neutral-300 dark:border-blue-500/40 font-semibold'
+              : 'bg-neutral-50/70 dark:bg-[#141b2a] border-neutral-100 dark:border-white/5 hover:bg-neutral-50 dark:hover:bg-[#172033]'
           }`}
         >
           <div className="flex items-center gap-2.5 min-w-0">
@@ -154,13 +154,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
               <span
                 className={`text-xs sm:text-sm truncate ${
                   highlightCountryCode === fixture.team_a_code
-                    ? 'text-neutral-950 font-bold'
-                    : 'text-neutral-800 font-medium'
+                    ? 'text-neutral-950 dark:text-white font-bold'
+                    : 'text-neutral-800 dark:text-slate-200 font-medium'
                 }`}
               >
                 {fixture.team_a_name || fixture.team_a_code}
               </span>
-              <span className="text-[10px] px-1.5 py-0.2 bg-white text-neutral-500 font-mono font-medium rounded border border-neutral-200">
+              <span className="text-[10px] px-1.5 py-0.2 bg-white dark:bg-[#090d16] text-neutral-500 dark:text-slate-400 font-mono font-medium rounded border border-neutral-200 dark:border-white/10">
                 {fixture.team_a_code}
               </span>
             </div>
@@ -172,13 +172,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
           {/* Team A Score */}
           <div className="text-right flex-shrink-0 ml-2">
             {isUpcoming ? (
-              <span className="text-xs text-neutral-400 font-mono font-medium">-</span>
+              <span className="text-xs text-neutral-400 dark:text-slate-500 font-mono font-medium">-</span>
             ) : scoreA && scoreA !== '' ? (
-              <span className="text-base sm:text-lg font-bold font-mono tracking-tight text-neutral-900">
+              <span className="text-base sm:text-lg font-bold font-mono tracking-tight text-neutral-900 dark:text-white">
                 {scoreA}
               </span>
             ) : (
-              <span className="text-sm text-neutral-500 font-mono">0</span>
+              <span className="text-sm text-neutral-500 dark:text-slate-400 font-mono">0</span>
             )}
           </div>
         </div>
@@ -188,8 +188,8 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
           <div
             className={`flex items-center justify-between px-3 py-2 rounded-xl border transition ${
               highlightCountryCode === fixture.team_b_code
-                ? 'bg-neutral-100 border-neutral-300 font-semibold'
-                : 'bg-neutral-50/70 border-neutral-100 hover:bg-neutral-50'
+                ? 'bg-neutral-100 dark:bg-blue-950/40 border-neutral-300 dark:border-blue-500/40 font-semibold'
+                : 'bg-neutral-50/70 dark:bg-[#141b2a] border-neutral-100 dark:border-white/5 hover:bg-neutral-50 dark:hover:bg-[#172033]'
             }`}
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -203,13 +203,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
                 <span
                   className={`text-xs sm:text-sm truncate ${
                     highlightCountryCode === fixture.team_b_code
-                      ? 'text-neutral-950 font-bold'
-                      : 'text-neutral-800 font-medium'
+                      ? 'text-neutral-950 dark:text-white font-bold'
+                      : 'text-neutral-800 dark:text-slate-200 font-medium'
                   }`}
                 >
                   {fixture.team_b_name || fixture.team_b_code}
                 </span>
-                <span className="text-[10px] px-1.5 py-0.2 bg-white text-neutral-500 font-mono font-medium rounded border border-neutral-200">
+                <span className="text-[10px] px-1.5 py-0.2 bg-white dark:bg-[#090d16] text-neutral-500 dark:text-slate-400 font-mono font-medium rounded border border-neutral-200 dark:border-white/10">
                   {fixture.team_b_code}
                 </span>
               </div>
@@ -221,44 +221,44 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
             {/* Team B Score */}
             <div className="text-right flex-shrink-0 ml-2">
               {isUpcoming ? (
-                <span className="text-xs text-neutral-400 font-mono font-medium">-</span>
+                <span className="text-xs text-neutral-400 dark:text-slate-500 font-mono font-medium">-</span>
               ) : scoreB && scoreB !== '' ? (
-                <span className="text-base sm:text-lg font-bold font-mono tracking-tight text-neutral-900">
+                <span className="text-base sm:text-lg font-bold font-mono tracking-tight text-neutral-900 dark:text-white">
                   {scoreB}
                 </span>
               ) : (
-                <span className="text-sm text-neutral-500 font-mono">0</span>
+                <span className="text-sm text-neutral-500 dark:text-slate-400 font-mono">0</span>
               )}
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-between px-3 py-2 rounded-xl border border-dashed border-neutral-200 bg-neutral-50/40 text-neutral-400">
+          <div className="flex items-center justify-between px-3 py-2 rounded-xl border border-dashed border-neutral-200 dark:border-white/10 bg-neutral-50/40 dark:bg-white/5 text-neutral-400 dark:text-slate-500">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-6 h-4 rounded-xs bg-neutral-200/60 border border-neutral-300/40 flex items-center justify-center text-[10px] font-mono text-neutral-400">
+              <div className="w-6 h-4 rounded-xs bg-neutral-200/60 dark:bg-white/10 border border-neutral-300/40 dark:border-white/10 flex items-center justify-center text-[10px] font-mono text-neutral-400 dark:text-slate-400">
                 ?
               </div>
-              <span className="text-xs font-medium text-neutral-400 italic">
+              <span className="text-xs font-medium text-neutral-400 dark:text-slate-400 italic">
                 Opponent TBD / Qualifier
               </span>
             </div>
-            <span className="text-xs text-neutral-400 font-mono">-</span>
+            <span className="text-xs text-neutral-400 dark:text-slate-500 font-mono">-</span>
           </div>
         )}
       </div>
 
       {/* Cricket Innings Scorecard Breakdown */}
       {isCricket && (inningsDetail || otherNotes.length > 0) && (
-        <div className="mb-2 p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/80 text-xs">
-          <div className="text-neutral-700 font-bold mb-1 text-[11px] uppercase tracking-wider">
+        <div className="mb-2 p-2.5 rounded-xl bg-neutral-50 dark:bg-[#080b12] border border-neutral-200/80 dark:border-white/10 text-xs">
+          <div className="text-neutral-700 dark:text-amber-400 font-bold mb-1 text-[11px] uppercase tracking-wider">
             Scorecard Summary
           </div>
           {inningsDetail && (
-            <p className="text-neutral-700 font-mono text-[11px] leading-relaxed">
+            <p className="text-neutral-700 dark:text-slate-300 font-mono text-[11px] leading-relaxed">
               {inningsDetail.replace(/^innings:\s*/i, '')}
             </p>
           )}
           {otherNotes.map((note, idx) => (
-            <p key={idx} className="text-neutral-600 text-[11px] font-medium mt-0.5">
+            <p key={idx} className="text-neutral-600 dark:text-emerald-400 text-[11px] font-medium mt-0.5">
               {note}
             </p>
           ))}
@@ -268,11 +268,11 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
       {/* Racquet Sports Set-by-Set Pills */}
       {isRacquet && setChips.length > 0 && (
         <div className="mb-2 flex items-center gap-1.5 flex-wrap">
-          <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Sets:</span>
+          <span className="text-[10px] text-neutral-400 dark:text-slate-400 font-bold uppercase tracking-wider">Sets:</span>
           {setChips.map((set, idx) => (
             <span
               key={idx}
-              className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-neutral-100 text-neutral-700 border border-neutral-200 font-medium"
+              className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-neutral-100 dark:bg-[#141b2a] text-neutral-700 dark:text-slate-200 border border-neutral-200 dark:border-white/10 font-medium"
             >
               {set.includes(':') ? set : `Set ${idx + 1}: ${set}`}
             </span>
@@ -282,20 +282,20 @@ export const MatchCard: React.FC<MatchCardProps> = ({ fixture, highlightCountryC
 
       {/* Athletes info if available */}
       {athletes && (
-        <div className="mb-2 text-xs text-neutral-600 flex items-center gap-2 bg-neutral-50 px-2.5 py-1.5 rounded-xl border border-neutral-200/60">
-          <Users className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+        <div className="mb-2 text-xs text-neutral-600 dark:text-slate-300 flex items-center gap-2 bg-neutral-50 dark:bg-[#121826] px-2.5 py-1.5 rounded-xl border border-neutral-200/60 dark:border-white/5">
+          <Users className="w-3.5 h-3.5 text-neutral-400 dark:text-sky-400 shrink-0" />
           <span className="truncate text-[11px] font-medium">{athletes}</span>
         </div>
       )}
 
       {/* Bottom Info Bar: Event discipline & Venue */}
-      <div className="flex items-center justify-between text-xs text-neutral-400 pt-2 border-t border-neutral-100 gap-2">
-        <span className="truncate font-medium text-neutral-500 text-[11px] flex items-center gap-1">
-          <MapPin className="w-3 h-3 text-neutral-400 shrink-0" />
+      <div className="flex items-center justify-between text-xs text-neutral-400 dark:text-slate-500 pt-2 border-t border-neutral-100 dark:border-white/5 gap-2">
+        <span className="truncate font-medium text-neutral-500 dark:text-slate-400 text-[11px] flex items-center gap-1">
+          <MapPin className="w-3 h-3 text-neutral-400 dark:text-slate-500 shrink-0" />
           <span className="truncate">{fixture.venue || 'Official Asian Games Venue'}</span>
         </span>
         {fixture.winner_code && (
-          <span className="text-[10px] font-semibold text-neutral-700">
+          <span className="text-[10px] font-semibold text-neutral-700 dark:text-slate-300">
             Winner: {fixture.winner_code}
           </span>
         )}

@@ -86,3 +86,44 @@ def test_scraper_engine_upsert(tmp_path):
     assert row["status"] == "COMPLETED"
     assert row["team_a_score"] == "2"
     assert row["winner_code"] == "IND"
+
+def test_fixture_parser_preserves_unmapped_country():
+    sample_html = """
+    <div class="match-item" data-id="badminton-unk-1">
+        <span class="sport">badminton</span>
+        <span class="event">Men's Singles</span>
+        <span class="stage">Quarter-final</span>
+        <span class="status">LIVE</span>
+        <span class="time">2026-09-25T11:00:00Z</span>
+        <span class="venue">Binjiang Gymnasium</span>
+        <div class="team-a" data-country="Republic of Ruritania">
+            <span class="score">0</span>
+        </div>
+        <div class="team-b" data-country="Japan">
+            <span class="score">1</span>
+        </div>
+    </div>
+    """
+    parser = FixtureParser()
+    fixtures = parser.parse_html(sample_html)
+    assert len(fixtures) == 1
+    f = fixtures[0]
+    assert f["team_a_code"] == "REP"  # Fallback 3-letter abbreviation
+    assert f["team_b_code"] == "JPN"
+
+@pytest.mark.asyncio
+async def test_scraper_engine_network_error_resilience(tmp_path):
+    test_db = str(tmp_path / "network_err_test.db")
+    init_db(test_db)
+    
+    engine = ScraperEngine()
+    # Attempting to fetch from unreachable port/host
+    result = await engine.sync_fixtures_async(test_db, url="http://127.0.0.1:59999/nonexistent")
+    assert result["status"] == "error"
+    assert "network_error" in result or "error" in result
+
+    conn = get_db_connection(test_db)
+    latest_log = conn.execute("SELECT status FROM scraper_logs ORDER BY id DESC LIMIT 1").fetchone()
+    conn.close()
+    assert latest_log["status"] == "FAILED"
+

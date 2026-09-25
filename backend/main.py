@@ -145,10 +145,10 @@ def get_fixtures(
     return [dict(r) for r in rows]
 
 @app.post("/api/scraper/sync")
-def trigger_sync(background_tasks: BackgroundTasks):
+async def trigger_sync(background_tasks: BackgroundTasks):
     db_path = get_current_db_path()
     engine = ScraperEngine()
-    result = engine.sync_fixtures(db_path)
+    result = await engine.sync_fixtures_async(db_path)
     return result
 
 @app.get("/api/scraper/status")

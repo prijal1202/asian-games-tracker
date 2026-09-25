@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List, Dict, Any, Optional
+import re
 from bs4 import BeautifulSoup
 from backend.scraper.normalizer import CountryNormalizer, StageNormalizer
 
@@ -38,8 +39,15 @@ class FixtureParser:
             country_b_raw = team_b_node.get("data-country", team_b_node.text) if team_b_node else ""
             
             team_a_code = CountryNormalizer.normalize(country_a_raw)
+            if not team_a_code and country_a_raw.strip():
+                clean_name = re.sub(r"[^\w]", "", country_a_raw).upper()
+                team_a_code = clean_name[:3] if len(clean_name) >= 3 else "UNK"
+
             team_b_code = CountryNormalizer.normalize(country_b_raw)
-            
+            if not team_b_code and country_b_raw.strip():
+                clean_name = re.sub(r"[^\w]", "", country_b_raw).upper()
+                team_b_code = clean_name[:3] if len(clean_name) >= 3 else "UNK"
+
             if not team_a_code:
                 continue
 

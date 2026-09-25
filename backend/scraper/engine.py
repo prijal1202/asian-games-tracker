@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Dict, Any, Optional
 import httpx
+import asyncio
 from datetime import datetime
 from backend.database import get_db_connection
 from backend.scraper.parser import FixtureParser
@@ -15,21 +16,45 @@ class ScraperEngine:
             resp.raise_for_status()
             return resp.text
 
-    def sync_fixtures(self, db_path: str, html_override: Optional[str] = None) -> Dict[str, Any]:
+    async def sync_fixtures_async(
+        self, db_path: str, url: Optional[str] = None, html_override: Optional[str] = None
+    ) -> Dict[str, Any]:
         conn = get_db_connection(db_path)
         cursor = conn.cursor()
         
         try:
-            if html_override:
+            if html_override is not None:
                 html_content = html_override
+            elif url:
+                try:
+                    html_content = await self.fetch_remote_markup(url)
+                except (httpx.RequestError, httpx.HTTPStatusError) as net_err:
+                    cursor.execute("""
+                        INSERT INTO scraper_logs (status, items_synced, message)
+                        VALUES ('FAILED', 0, ?);
+                    """, (f"Network error: {str(net_err)}",))
+                    conn.commit()
+                    return {
+                        "status": "error",
+                        "error": str(net_err),
+                        "network_error": True,
+                        "timestamp": datetime.utcnow().isoformat() + "Z"
+                    }
             else:
-                # Built-in fallback simulated markup when no live target URL is set
                 html_content = ""
 
             fixtures = self.parser.parse_html(html_content)
             synced_count = 0
             
             for f in fixtures:
+                # Ensure country codes exist in countries table to satisfy FK
+                for c_code in [f["team_a_code"], f["team_b_code"]]:
+                    if c_code:
+                        cursor.execute("""
+                            INSERT OR IGNORE INTO countries (code, name, flag_url)
+                            VALUES (?, ?, '🏳️');
+                        """, (c_code, c_code))
+
                 cursor.execute("""
                     INSERT INTO fixtures (
                         id, sport_slug, event_name, stage_round, status, scheduled_at,
@@ -76,3 +101,21 @@ class ScraperEngine:
             }
         finally:
             conn.close()
+
+    def sync_fixtures(
+        self, db_path: str, url: Optional[str] = None, html_override: Optional[str] = None
+    ) -> Dict[str, Any]:
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            # Already inside an event loop
+            import concurrent.futures
+            with concurrent.futures.ThreadPoolExecutor() as pool:
+                return pool.submit(
+                    asyncio.run, self.sync_fixtures_async(db_path, url, html_override)
+                ).result()
+        else:
+            return asyncio.run(self.sync_fixtures_async(db_path, url, html_override))
